@@ -2,6 +2,8 @@ package FlowerPower.model;
 
 import edu.macalester.graphics.GraphicsGroup;
 
+// This is our character!!!
+
 public class Explorer {
 
     private GraphicsGroup icon;
