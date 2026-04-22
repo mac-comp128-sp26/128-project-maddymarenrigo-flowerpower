@@ -1,16 +1,16 @@
-package FlowerPower.model.Collectables;
+package FlowerPower.model.Collectibles;
 
-import FlowerPower.model.Collectable;
+import FlowerPower.model.Collectible;
 import edu.macalester.graphics.GraphicsGroup;
 
-public class Mushroom implements Collectable{
+public class Flower implements Collectible{
 
     private Double posX;
     private Double posY;
     private String type;
     private GraphicsGroup icon;
 
-    public Mushroom(String type, GraphicsGroup icon){
+    public Flower(String type, GraphicsGroup icon){
         icon = this.icon;
         posX = 0.0;
         posY = 0.0;
@@ -43,6 +43,5 @@ public class Mushroom implements Collectable{
     public String getType() {
         return type;
     }
-    
 
 }
