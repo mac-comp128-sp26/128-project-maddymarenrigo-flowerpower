@@ -8,9 +8,12 @@ public class Explorer {
 
     private GraphicsGroup icon;
     private int score;
+    private Gameboard gameboard;
 
-    public Explorer(GraphicsGroup icon){
+    public Explorer(GraphicsGroup icon, Gameboard gameboard){
         icon = this.icon;
+        gameboard = this.gameboard;
+
     }
 
     public double getX(){
