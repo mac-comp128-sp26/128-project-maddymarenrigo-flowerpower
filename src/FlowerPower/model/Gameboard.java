@@ -10,11 +10,11 @@ public class Gameboard {
 
     Graph graph;
     GraphicsGroup board;
-    List<List<Integer>> cells;
+    List<List<CellType>> cells; // get a cell with cells.get(y).get(x)
 
     // grid gameboard dimensions
-    private int row;
-    private int col;
+    private int row; // number of rows (height)
+    private int col; // number of cols (width)
 
     // grid cell dimensions
     private Double cellWid;
@@ -23,9 +23,18 @@ public class Gameboard {
     public Gameboard(int row, int col){
         board = new GraphicsGroup();
         cells = new ArrayList<>();
+        
+        /* set up cells to have the right number of entries (all empty for now; will be generated later) */
+        for (int i = 0; i < row; i++) {
+            List<CellType> tempList = new ArrayList<>();
+            for (int j = 0; j < col; j++) {
+                tempList.add(CellType.EMPTY);
+            }
+            cells.add(tempList);
+        }
 
-        row = this.row;
-        col = this.col;
+        this.row = row;
+        this.col = col;
 
         cellLen = 32.0; // 32 x 32 pixels
         cellWid = 32.0; // 32 x 32 pixels
@@ -43,25 +52,62 @@ public class Gameboard {
         }
     }
 
-    public Integer getCellAt(int x, int y) {
-        return null;
+    /**
+     * Returns the CellType of the cell at position (x, y) or CellType.OBSTACLE if that's outside the world
+     * 
+     * @param x
+     * @param y
+     * @return CellType
+     */
+    public CellType getCellAt(int x, int y) {
+        if (x < 0 || y < 0 || x >= col || y >= row) {
+            return CellType.OBSTACLE;
+        }
+        return cells.get(y).get(x);
     }
 
-    public void setCellAt(int x, int y, Integer type) {
-        
+    /**
+     * Sets the cell at position (x, y) to CellType type
+     * 
+     * @param x
+     * @param y
+     * @param type
+     */
+    public void setCellAt(int x, int y, CellType type) {
+        if (x < 0 || y < 0 || x >= col || y >= row) {
+            return;
+        }
+        cells.get(y).set(x, type);
     }
 
-    public List<Integer> getNeighbors(int x, int y) {
-        return null;
+    /**
+     * Returns a list of the CellTypes of all of the neighbors of the cell at position (x, y) in mathematical order from 0° to 360°
+     * 
+     * @param x
+     * @param y
+     * @return List<CellType>
+     */
+    public List<CellType> getNeighbors(int x, int y) {
+        List<CellType> neighbors = new ArrayList<>();
+        /* go through neighbors in mathematical order from 0° to 360° */
+        neighbors.add(getCellAt(x + 1, y));
+        neighbors.add(getCellAt(x, y + 1));
+        neighbors.add(getCellAt(x - 1, y));
+        neighbors.add(getCellAt(x, y - 1));
+        return neighbors;
     }
 
-
-    public List<List<Integer>> getCells() {
+    /**
+     * Returns the entire array of cells
+     * 
+     * @return List<List<CellType>>
+     */
+    public List<List<CellType>> getCells() {
         return cells;
     }
 
     /**
-     * Returns the constructed board
+     * Returns the constructed visual board
      *
      * @return the GraphicsGroup board object
      */
