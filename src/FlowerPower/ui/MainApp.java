@@ -1,11 +1,15 @@
 package FlowerPower.ui;
 
-import FlowerPower.model.Collectable;
+import FlowerPower.model.Collectible;
 import FlowerPower.model.Obstacle;
 import FlowerPower.model.Explorer;
 import FlowerPower.model.Gameboard;
 
-
+//Maren is doing ui
+/**
+ * backround
+ * shapes for player, collect and obstical
+ */
 public class MainApp {
 
     //variables
