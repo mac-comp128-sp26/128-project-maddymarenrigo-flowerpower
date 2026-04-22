@@ -10,6 +10,9 @@ public class Explorer {
     private int score;
     private Gameboard gameboard;
 
+    private double speed;
+    
+
     public Explorer(GraphicsGroup icon, Gameboard gameboard){
         icon = this.icon;
         gameboard = this.gameboard;

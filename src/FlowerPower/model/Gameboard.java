@@ -1,12 +1,14 @@
 package FlowerPower.model;
 
 import edu.macalester.graphics.GraphicsGroup;
+import FlowerPower.model.Datatypes.Graph;
 import edu.macalester.graphics.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Gameboard {
 
+    Graph graph;
     GraphicsGroup board;
     List<List<Integer>> cells;
 
