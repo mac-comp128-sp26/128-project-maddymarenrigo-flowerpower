@@ -1,16 +1,16 @@
-package FlowerPower.model.Collectables;
+package FlowerPower.model.Collectibles;
 
-import FlowerPower.model.Collectable;
+import FlowerPower.model.Collectible;
 import edu.macalester.graphics.GraphicsGroup;
 
-public class Flower implements Collectable{
+public class Gem implements Collectible{
 
     private Double posX;
     private Double posY;
     private String type;
     private GraphicsGroup icon;
 
-    public Flower(String type, GraphicsGroup icon){
+    public Gem(String type, GraphicsGroup icon){
         icon = this.icon;
         posX = 0.0;
         posY = 0.0;
