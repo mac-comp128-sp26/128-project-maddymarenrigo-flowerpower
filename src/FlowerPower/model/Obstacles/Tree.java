@@ -1,14 +1,17 @@
 package FlowerPower.model.Obstacles;
 
 import FlowerPower.model.Obstacle;
+import edu.macalester.graphics.GraphicsGroup;
 
 public class Tree implements Obstacle{
 
     private Double posX;
     private Double posY;
     private String type;
+    private GraphicsGroup icon;
 
-    public Tree(String type){
+    public Tree(String type, GraphicsGroup icon){
+        icon = this.icon;
         posX = 0.0;
         posY = 0.0;
         type = this.type;

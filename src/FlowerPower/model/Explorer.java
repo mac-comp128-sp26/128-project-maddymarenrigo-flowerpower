@@ -6,8 +6,8 @@ public class Explorer {
 
     private GraphicsGroup icon;
 
-    public Explorer(){
-
+    public Explorer(GraphicsGroup icon){
+        icon = this.icon;
     }
 
     public Double getX(){

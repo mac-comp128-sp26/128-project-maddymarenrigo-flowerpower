@@ -1,14 +1,17 @@
 package FlowerPower.model.Obstacles;
 
 import FlowerPower.model.Obstacle;
+import edu.macalester.graphics.GraphicsGroup;
 
 public class Rock implements Obstacle{
 
     private Double posX;
     private Double posY;
     private String type;
+    private GraphicsGroup icon;
 
-    public Rock(String type){
+    public Rock(String type, GraphicsGroup icon){
+        icon = this.icon;
         posX = 0.0;
         posY = 0.0;
         type = this.type;
