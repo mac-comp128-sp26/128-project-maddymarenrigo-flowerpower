@@ -5,17 +5,22 @@ import edu.macalester.graphics.GraphicsGroup;
 public class Explorer {
 
     private GraphicsGroup icon;
+    private int score;
 
     public Explorer(GraphicsGroup icon){
         icon = this.icon;
     }
 
-    public Double getX(){
+    public double getX(){
         return 0.0; 
     }
 
-    public Double getY(){
+    public double getY(){
         return 0.0; 
+    }
+
+    public int getScore(){
+        return score;
     }
 
 }
