@@ -1,6 +1,9 @@
 package FlowerPower.ui;
 
 import java.awt.Color;
+import java.awt.RenderingHints.Key;
+import java.util.Set;
+
 import FlowerPower.model.Collectible;
 import FlowerPower.model.Obstacle;
 import FlowerPower.model.Explorer;
@@ -46,6 +49,18 @@ public class MainApp {
         setUpGame();
     }
 
+    /**
+     * Does everything that needs to happen on a particular frame.
+     */
+    private void oneFrame() {
+        // Move player
+        Set<edu.macalester.graphics.events.Key> keys = canvas.getKeysPressed();
+        if (keys.contains(edu.macalester.graphics.events.Key.UP_ARROW)) explorer.moveUp();
+        if (keys.contains(edu.macalester.graphics.events.Key.DOWN_ARROW)) explorer.moveDown();
+        if (keys.contains(edu.macalester.graphics.events.Key.RIGHT_ARROW)) explorer.moveRight();
+        if (keys.contains(edu.macalester.graphics.events.Key.LEFT_ARROW)) explorer.moveLeft();
+    }
+
     private void setUpGame() {
         //this will set up and reset the layout for the beginning of a round.
         canvas.removeAll();
@@ -53,24 +68,7 @@ public class MainApp {
         canvas.add(game.getBoard());
         canvas.add(explorer.icon);
         // explorer movement
-        canvas.onKeyDown(key -> {
-            switch (key.getKey()) {
-                case UP_ARROW: 
-                    explorer.moveUp();
-                    break;
-                case DOWN_ARROW:
-                    explorer.moveDown();
-                    break;
-                case LEFT_ARROW:
-                    explorer.moveLeft();
-                    break;
-                case RIGHT_ARROW:
-                    explorer.moveRight();
-                    break;
-                default:
-                    break;
-            }
-        });
+        canvas.animate(this::oneFrame);
     }
 
 }
