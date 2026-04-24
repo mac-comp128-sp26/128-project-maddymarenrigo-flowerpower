@@ -1,18 +1,24 @@
 package FlowerPower.model;
 
 import edu.macalester.graphics.GraphicsGroup;
+import edu.macalester.graphics.Point;
 
 public class Explorer {
 
-    private GraphicsGroup icon;
+    public GraphicsGroup icon;
     private int score;
     private Gameboard gameboard;
     private double speed;
 
+    private int x; // world map position
+    private int y; // world map position
+
     public Explorer(GraphicsGroup icon, Gameboard gameboard) {
         this.icon = icon;          
         this.gameboard = gameboard; 
-        this.speed = 5.0;         
+        this.speed = 5.0;
+        this.x = 0;
+        this.y = 0;
     }
 
     // --- movement methods ---
@@ -33,14 +39,22 @@ public class Explorer {
         icon.moveBy(speed, 0);
     }
 
+    public void updateOnscreenPosition() {
+        
+    }
+
     // --- getters ---
 
     public double getX() {
-        return 0.0; //icon.getX(); 
+        return x;
     }
 
     public double getY() {
-        return 0.0; //icon.getY(); 
+        return x;
+    }
+
+    public Point getOnscreenPosition() {
+        return icon.getCenter();
     }
 
     public int getScore() {
