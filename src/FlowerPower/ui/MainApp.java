@@ -55,10 +55,18 @@ public class MainApp {
         // explorer movement
         canvas.onKeyDown(key -> {
             switch (key.getKey()) {
-                case UP_ARROW: explorer.moveUp();
-                case DOWN_ARROW: explorer.moveDown();
-                case LEFT_ARROW: explorer.moveLeft();
-                case RIGHT_ARROW: explorer.moveRight();
+                case UP_ARROW: 
+                    explorer.moveUp();
+                    break;
+                case DOWN_ARROW:
+                    explorer.moveDown();
+                    break;
+                case LEFT_ARROW:
+                    explorer.moveLeft();
+                    break;
+                case RIGHT_ARROW:
+                    explorer.moveRight();
+                    break;
                 default:
                     break;
             }

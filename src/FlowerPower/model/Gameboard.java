@@ -42,6 +42,8 @@ public class Gameboard {
 
         cellLen = 32.0; // 32 x 32 pixels
         cellWid = 32.0; // 32 x 32 pixels
+
+        cameraPosition = new Point(0, 0);
     }
 
     /**
