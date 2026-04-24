@@ -1,6 +1,7 @@
 package FlowerPower.model;
 
 import edu.macalester.graphics.GraphicsGroup;
+import edu.macalester.graphics.Point;
 import FlowerPower.model.Datatypes.Graph;
 import edu.macalester.graphics.Rectangle;
 import java.util.ArrayList;
@@ -20,7 +21,10 @@ public class Gameboard {
     private Double cellWid;
     private Double cellLen;
 
-    public Gameboard(int row, int col){
+    // camera position
+    private Point cameraPosition;
+
+    public Gameboard(int row, int col) {
         board = new GraphicsGroup();
         cells = new ArrayList<>();
         
@@ -41,15 +45,35 @@ public class Gameboard {
     }
 
     /**
-     * Sets up the grid gameboard in board
+     * Sets up the visual gameboard in board
      */
-    public void setup(){
+    public void setup() {
         for (int r = 0; r < row; r++){
             for (int c = 0; c < col; c++){
-                Rectangle cell = new Rectangle(c*32, r*32, cellWid, cellLen);
+                Rectangle cell = new Rectangle(c*cellLen, r*cellWid, cellWid, cellLen);
                 board.add(cell);
             }
         }
+    }
+
+    /**
+     * Gets the visual position onscreen of the center of the cell at map coordinates (x, y).
+     * @param x
+     * @param y
+     * @return Point
+     */
+    public Point getOnscreenPosition(int x, int y) {
+        Point position = new Point(x * cellLen, y * cellWid);
+        position.subtract(cameraPosition);
+        return position;
+    }
+
+    /**
+     * Takes in the explorer's current position onscreen and updates the camera accordingly to follow it.
+     * @param explorerOnscreenPosition
+     */
+    public void updateCamera(Point explorerOnscreenPosition) {
+        cameraPosition.add(explorerOnscreenPosition.subtract(cameraPosition).scale(1.0/5.0)); // moves the camera 1/5 of the way to centering the explorer each frame (this is actually kinda fast)
     }
 
     /**
@@ -111,7 +135,7 @@ public class Gameboard {
      *
      * @return the GraphicsGroup board object
      */
-    public GraphicsGroup getBoard(){
+    public GraphicsGroup getBoard() {
         return board;
     }
 
