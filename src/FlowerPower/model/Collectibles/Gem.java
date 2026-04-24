@@ -1,9 +1,15 @@
 package FlowerPower.model.Collectibles;
 
+import java.awt.Color;
+
+import edu.macalester.graphics.Ellipse;
 import FlowerPower.model.Collectible;
+import edu.macalester.graphics.Ellipse;
 import edu.macalester.graphics.GraphicsGroup;
 
 public class Gem implements Collectible{
+
+    public static final double TILE_SIZE = 32;
 
     private Double posX;
     private Double posY;
@@ -11,10 +17,14 @@ public class Gem implements Collectible{
     private GraphicsGroup icon;
 
     public Gem(String type, GraphicsGroup icon){
-        icon = this.icon;
+        this.icon = icon;
         posX = 0.0;
         posY = 0.0;
-        type = this.type;
+        this.type = type;
+
+        Ellipse rect = new Ellipse(0, 0, (int) TILE_SIZE, (int) TILE_SIZE);
+        rect.setFillColor(Color.ORANGE);
+        icon.add(rect); 
     }
 
     /**

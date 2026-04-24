@@ -1,9 +1,14 @@
 package FlowerPower.model.Obstacles;
 
+import java.awt.Color;
+
 import FlowerPower.model.Obstacle;
+import edu.macalester.graphics.Ellipse;
 import edu.macalester.graphics.GraphicsGroup;
 
 public class Bush implements Obstacle{
+
+    public static final double TILE_SIZE = 32;
 
     private Double posX;
     private Double posY;
@@ -11,10 +16,14 @@ public class Bush implements Obstacle{
     private GraphicsGroup icon;
 
     public Bush(String type, GraphicsGroup icon){
-        icon = this.icon;
+        this.icon = icon;
         posX = 0.0;
         posY = 0.0;
-        type = this.type;
+        this.type = type;
+
+        Ellipse rect = new Ellipse(0, 0, (int) TILE_SIZE, (int) TILE_SIZE);
+        rect.setFillColor(Color.YELLOW);
+        icon.add(rect);
     }
 
     /**
