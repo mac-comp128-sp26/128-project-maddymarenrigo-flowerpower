@@ -9,6 +9,7 @@ public class Explorer {
     private int score;
     private Gameboard gameboard;
     private double speed;
+    private double movementTimer;
 
     private int x; // world map position
     private int y; // world map position
@@ -17,6 +18,7 @@ public class Explorer {
         this.icon = icon;          
         this.gameboard = gameboard; 
         this.speed = 5.0;
+        this.movementTimer = this.speed;
         this.x = 0;
         this.y = 0;
     }
@@ -24,23 +26,44 @@ public class Explorer {
     // --- movement methods ---
 
     public void moveUp() {
-        icon.moveBy(0, -speed);
+        movementTimer--;
+        if (movementTimer <= 0) {
+            y--;
+            movementTimer = speed;
+        }
+        updateOnscreenPosition();
     }
 
     public void moveDown() {
-        icon.moveBy(0, speed);
+        movementTimer--;
+        if (movementTimer <= 0) {
+            y++;
+            movementTimer = speed;
+        }
+        updateOnscreenPosition();
     }
 
     public void moveLeft() {
-        icon.moveBy(-speed, 0);
+        movementTimer--;
+        if (movementTimer <= 0) {
+            x--;
+            movementTimer = speed;
+        }
+        updateOnscreenPosition();
     }
 
     public void moveRight() {
-        icon.moveBy(speed, 0);
+        movementTimer--;
+        if (movementTimer <= 0) {
+            x++;
+            movementTimer = speed;
+        }
+        updateOnscreenPosition();
     }
 
     public void updateOnscreenPosition() {
-        
+        Point newPosition = gameboard.getOnscreenPosition(x, y);
+        icon.setCenter(newPosition);
     }
 
     // --- getters ---
