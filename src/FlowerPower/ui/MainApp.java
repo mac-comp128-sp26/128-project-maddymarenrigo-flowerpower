@@ -56,6 +56,9 @@ public class MainApp {
         if (keys.contains(edu.macalester.graphics.events.Key.DOWN_ARROW)) explorer.moveDown();
         if (keys.contains(edu.macalester.graphics.events.Key.RIGHT_ARROW)) explorer.moveRight();
         if (keys.contains(edu.macalester.graphics.events.Key.LEFT_ARROW)) explorer.moveLeft();
+
+        game.oneFrame();
+        explorer.oneFrame();
     }
 
     private void setUpGame() {

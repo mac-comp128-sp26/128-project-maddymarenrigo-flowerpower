@@ -33,6 +33,14 @@ public class Explorer {
         icon.add(explorerIcon);
     }
 
+    /**
+     * Everything that needs to happen every single frame.
+     */
+    public void oneFrame() {
+        gameboard.updateCamera(x, y);
+        updateOnscreenPosition();
+    }
+
     // --- movement methods ---
 
     public void moveUp() {
@@ -74,6 +82,7 @@ public class Explorer {
     public void updateOnscreenPosition() {
         Point newPosition = gameboard.getOnscreenPosition(x, y);
         icon.setCenter(newPosition);
+        System.out.println("Icon center:");
         System.out.println(icon.getCenter());
     }
 

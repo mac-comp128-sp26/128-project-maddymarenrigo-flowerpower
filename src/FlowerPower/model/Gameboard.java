@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Gameboard {
 
@@ -34,6 +35,7 @@ public class Gameboard {
 
     // camera position
     private Point cameraPosition;
+    private Point wishCameraPosition; // where the camera's easing to
 
     public Gameboard(int row, int col, CanvasWindow canvas) {
         board = new HashMap<>();
@@ -72,6 +74,13 @@ public class Gameboard {
     }
 
     /**
+     * Everything that needs to happen every single frame.
+     */
+    public void oneFrame() {
+        
+    }
+
+    /**
      * Sets up the visual gameboard in board (assuming the level has already been generated) and adds it to the canvas
      */
     public void setup() {
@@ -94,17 +103,31 @@ public class Gameboard {
      * @return Point
      */
     public Point getOnscreenPosition(int x, int y) {
-        Point position = new Point(x * cellLen, y * cellWid);
-        position.subtract(cameraPosition);
+        Point position = getRawPosition(x, y);
+        position = position.subtract(cameraPosition);
+        System.out.println("Position onscreen:");
+        System.out.println(position);
         return position;
     }
 
+    // gets the visual position of where the cell would be if the camera was at the origin
+    private Point getRawPosition(int x, int y) {
+        return new Point(x * cellLen, y * cellWid);
+    }
+
     /**
-     * Takes in the explorer's current position onscreen and updates the camera accordingly to follow it.
+     * Takes in the explorer's current position in the world map and updates the camera accordingly to follow it.
      * @param explorerOnscreenPosition
      */
-    public void updateCamera(Point explorerOnscreenPosition) {
-        cameraPosition.add(explorerOnscreenPosition.subtract(cameraPosition).scale(1.0/5.0)); // moves the camera 1/5 of the way to centering the explorer each frame (this is actually kinda fast)
+    public void updateCamera(int x, int y) {
+        wishCameraPosition = getRawPosition(x, y).subtract(new Point(canvas.getWidth() / 2.0, canvas.getHeight() / 2.0));
+        Point delta = wishCameraPosition.subtract(cameraPosition).scale(1.0/20.0);
+        cameraPosition = cameraPosition.add(delta);
+        //System.out.println("Camera position:");
+        //System.out.println(cameraPosition);
+        for (Entry<Point, GraphicsObject> entry : board.entrySet()) {
+            entry.getValue().moveBy(delta.scale(-1));
+        }
     }
 
     /**
