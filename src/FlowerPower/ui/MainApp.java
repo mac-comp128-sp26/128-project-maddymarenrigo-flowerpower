@@ -65,7 +65,7 @@ public class MainApp {
         //this will set up and reset the layout for the beginning of a round.
         canvas.removeAll();
         //adding to canvas
-        //TODO: game.generateBoard();
+        //TODO: game.generateBoard(); (putting the stuff in the cells array)
         game.setup();
         canvas.add(explorer.icon);
         // explorer movement
