@@ -82,8 +82,6 @@ public class Explorer {
     public void updateOnscreenPosition() {
         Point newPosition = gameboard.getOnscreenPosition(x, y);
         icon.setCenter(newPosition);
-        System.out.println("Icon center:");
-        System.out.println(icon.getCenter());
     }
 
     // --- getters ---

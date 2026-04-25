@@ -105,8 +105,6 @@ public class Gameboard {
     public Point getOnscreenPosition(int x, int y) {
         Point position = getRawPosition(x, y);
         position = position.subtract(cameraPosition);
-        System.out.println("Position onscreen:");
-        System.out.println(position);
         return position;
     }
 
@@ -123,8 +121,6 @@ public class Gameboard {
         wishCameraPosition = getRawPosition(x, y).subtract(new Point(canvas.getWidth() / 2.0, canvas.getHeight() / 2.0));
         Point delta = wishCameraPosition.subtract(cameraPosition).scale(1.0/20.0);
         cameraPosition = cameraPosition.add(delta);
-        //System.out.println("Camera position:");
-        //System.out.println(cameraPosition);
         for (Entry<Point, GraphicsObject> entry : board.entrySet()) {
             entry.getValue().moveBy(delta.scale(-1));
         }
