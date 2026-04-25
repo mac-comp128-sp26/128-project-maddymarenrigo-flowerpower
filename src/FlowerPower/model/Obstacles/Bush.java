@@ -13,7 +13,7 @@ public class Bush implements Obstacle{
     private Double posX;
     private Double posY;
     private String type;
-    private GraphicsGroup icon;
+    public GraphicsGroup icon;
 
     public Bush(String type, GraphicsGroup icon){
         this.icon = icon;

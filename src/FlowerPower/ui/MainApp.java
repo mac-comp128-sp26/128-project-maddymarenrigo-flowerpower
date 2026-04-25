@@ -26,7 +26,7 @@ public class MainApp {
     private CanvasWindow canvas;
     private Color backgroundColor = new Color(34, 125, 73);
     Explorer explorer;
-    public Rectangle explorerIcon;
+   
  
     private MainApp() {
         //constructor
@@ -35,9 +35,8 @@ public class MainApp {
         canvas.setBackground(backgroundColor);
         game = new Gameboard(16, 16); // 256 by 256 for full gameboard
         explorer = new Explorer(new GraphicsGroup(), game);
-        explorerIcon = new Rectangle(0, 0, (int) TILE_SIZE, (int) TILE_SIZE);
-        explorerIcon.setFillColor(Color.WHITE);
-        explorer.icon.add(explorerIcon); 
+        
+        //explorer.icon.add(explorerIcon); 
     }
 
     public static void main(String[] args) {

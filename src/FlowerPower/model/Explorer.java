@@ -1,7 +1,11 @@
 package FlowerPower.model;
 
+import java.awt.Color;
+
+import FlowerPower.ui.MainApp;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.Point;
+import edu.macalester.graphics.Rectangle;
 
 public class Explorer {
 
@@ -10,6 +14,7 @@ public class Explorer {
     private Gameboard gameboard;
     private double speed;
     private double movementTimer;
+    
 
     private int x; // world map position
     private int y; // world map position
@@ -21,6 +26,11 @@ public class Explorer {
         this.movementTimer = this.speed;
         this.x = 0;
         this.y = 0;
+
+        //icon
+        Rectangle explorerIcon = new Rectangle(0, 0, (int) MainApp.TILE_SIZE, (int) MainApp.TILE_SIZE);
+        explorerIcon.setFillColor(Color.WHITE);
+        icon.add(explorerIcon);
     }
 
     // --- movement methods ---

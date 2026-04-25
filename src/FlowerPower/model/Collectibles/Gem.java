@@ -14,7 +14,7 @@ public class Gem implements Collectible{
     private Double posX;
     private Double posY;
     private String type;
-    private GraphicsGroup icon;
+    public GraphicsGroup icon;
 
     public Gem(String type, GraphicsGroup icon){
         this.icon = icon;

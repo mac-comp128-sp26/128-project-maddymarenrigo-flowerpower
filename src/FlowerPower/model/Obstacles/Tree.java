@@ -13,7 +13,7 @@ public class Tree implements Obstacle{
     private Double posX;
     private Double posY;
     private String type;
-    private GraphicsGroup icon;
+    public GraphicsGroup icon;
 
     public Tree(String type, GraphicsGroup icon){
         this.icon = icon;
