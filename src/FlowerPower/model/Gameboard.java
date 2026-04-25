@@ -1,17 +1,25 @@
 package FlowerPower.model;
 
+import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsGroup;
+import edu.macalester.graphics.GraphicsObject;
 import edu.macalester.graphics.Point;
 import FlowerPower.model.Datatypes.Graph;
 import edu.macalester.graphics.Rectangle;
+
+import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Gameboard {
 
     Graph graph;
-    GraphicsGroup board;
+    Map<Point, GraphicsObject> board; // maps world map coordinates to the GraphicsObject for the tile
     List<List<CellType>> cells; // get a cell with cells.get(y).get(x)
+
+    Map<CellType, Color> cellDisplayColors; // temporary for temp graphics; will replace this with a map from cell types to graphics to display
 
     // grid gameboard dimensions
     private int row; // number of rows (height)
@@ -21,11 +29,14 @@ public class Gameboard {
     private Double cellWid;
     private Double cellLen;
 
+    // canvas to draw onto
+    private CanvasWindow canvas;
+
     // camera position
     private Point cameraPosition;
 
-    public Gameboard(int row, int col) {
-        board = new GraphicsGroup();
+    public Gameboard(int row, int col, CanvasWindow canvas) {
+        board = new HashMap<>();
         cells = new ArrayList<>();
         
         /* set up cells to have the right number of entries (all empty for now; will be generated later) */
@@ -37,23 +48,41 @@ public class Gameboard {
             cells.add(tempList);
         }
 
+        /* set up cellDisplayColors */
+        cellDisplayColors = new HashMap<CellType, Color>();
+        cellDisplayColors.put(CellType.EMPTY, new Color(0, 0, 0, 0));
+        cellDisplayColors.put(CellType.BUSH, new Color(21, 115, 46));
+        cellDisplayColors.put(CellType.ROCK, new Color(92, 92, 92));
+        cellDisplayColors.put(CellType.TREE, new Color(94, 36, 8));
+        cellDisplayColors.put(CellType.WALL, new Color(212, 126, 114));
+        cellDisplayColors.put(CellType.FLOWER, new Color(255, 0, 212));
+        cellDisplayColors.put(CellType.GEM, new Color(0, 102, 255));
+        cellDisplayColors.put(CellType.MUSHROOM, new Color(181, 139, 98));
+
+
         this.row = row;
         this.col = col;
 
         cellLen = 32.0; // 32 x 32 pixels
         cellWid = 32.0; // 32 x 32 pixels
 
+        this.canvas = canvas;
+
         cameraPosition = new Point(0, 0);
     }
 
     /**
-     * Sets up the visual gameboard in board
+     * Sets up the visual gameboard in board (assuming the level has already been generated) and adds it to the canvas
      */
     public void setup() {
         for (int r = 0; r < row; r++){
-            for (int c = 0; c < col; c++){
-                Rectangle cell = new Rectangle(c*cellLen, r*cellWid, cellWid, cellLen);
-                board.add(cell);
+            for (int c = 0; c < col; c++) {
+                if (getCellAt(c, r) != CellType.EMPTY) {
+                    Rectangle cell = new Rectangle(c*cellLen, r*cellWid, cellWid, cellLen);
+                    cell.setFillColor(cellDisplayColors.get(getCellAt(c, r)));
+                    board.put(new Point(c, r), cell);
+                    canvas.add(cell);
+                }
             }
         }
     }
@@ -79,7 +108,7 @@ public class Gameboard {
     }
 
     /**
-     * Returns the CellType of the cell at position (x, y) or CellType.OBSTACLE if that's outside the world
+     * Returns the CellType of the cell at position (x, y) or CellType.WALL if that's outside the world
      * 
      * @param x
      * @param y
@@ -87,23 +116,26 @@ public class Gameboard {
      */
     public CellType getCellAt(int x, int y) {
         if (x < 0 || y < 0 || x >= col || y >= row) {
-            return CellType.OBSTACLE;
+            return CellType.WALL;
         }
         return cells.get(y).get(x);
     }
 
     /**
-     * Sets the cell at position (x, y) to CellType type
+     * Empties the cell at position (x, y)
      * 
      * @param x
      * @param y
-     * @param type
      */
-    public void setCellAt(int x, int y, CellType type) {
+    public void clearCellAt(int x, int y) {
         if (x < 0 || y < 0 || x >= col || y >= row) {
             return;
         }
-        cells.get(y).set(x, type);
+        cells.get(y).set(x, CellType.EMPTY);
+        if (board.get(new Point(x, y)) != null) {
+            canvas.remove(board.get(new Point(x, y)));
+            board.remove(new Point(x, y));
+        }
     }
 
     /**
@@ -131,14 +163,4 @@ public class Gameboard {
     public List<List<CellType>> getCells() {
         return cells;
     }
-
-    /**
-     * Returns the constructed visual board
-     *
-     * @return the GraphicsGroup board object
-     */
-    public GraphicsGroup getBoard() {
-        return board;
-    }
-
 }

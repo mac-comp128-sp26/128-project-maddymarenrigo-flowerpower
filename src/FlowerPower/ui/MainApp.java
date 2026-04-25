@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.RenderingHints.Key;
 import java.util.Set;
 
-import FlowerPower.model.Collectible;
-import FlowerPower.model.Obstacle;
 import FlowerPower.model.Explorer;
 import FlowerPower.model.Gameboard;
 import edu.macalester.graphics.CanvasWindow;
@@ -33,7 +31,7 @@ public class MainApp {
         // add obstacles, explorer, collectables OR have Gameboard.java implement those and then just add a new Gameboard object
         canvas = new CanvasWindow("FlowerPower", (int) CANVAS_SIZE, (int) CANVAS_SIZE);
         canvas.setBackground(backgroundColor);
-        game = new Gameboard(16, 16); // 256 by 256 for full gameboard
+        game = new Gameboard(16, 16, canvas); // 256 by 256 for full gameboard
         explorer = new Explorer(new GraphicsGroup(), game);
         
         //explorer.icon.add(explorerIcon); 
@@ -64,7 +62,8 @@ public class MainApp {
         //this will set up and reset the layout for the beginning of a round.
         canvas.removeAll();
         //adding to canvas
-        canvas.add(game.getBoard());
+        //TODO: game.generateBoard();
+        game.setup();
         canvas.add(explorer.icon);
         // explorer movement
         canvas.animate(this::oneFrame);
