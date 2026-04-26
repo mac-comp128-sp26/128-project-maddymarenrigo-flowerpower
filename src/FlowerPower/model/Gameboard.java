@@ -1,18 +1,18 @@
 package FlowerPower.model;
 
-import edu.macalester.graphics.CanvasWindow;
-import edu.macalester.graphics.GraphicsGroup;
-import edu.macalester.graphics.GraphicsObject;
-import edu.macalester.graphics.Point;
-import FlowerPower.model.Datatypes.Graph;
-import edu.macalester.graphics.Rectangle;
-
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import FlowerPower.model.Datatypes.Graph;
+import FlowerPower.model.Datatypes.aStar;
+import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.GraphicsObject;
+import edu.macalester.graphics.Point;
+import edu.macalester.graphics.Rectangle;
 
 public class Gameboard {
 
@@ -182,4 +182,70 @@ public class Gameboard {
     public List<List<CellType>> getCells() {
         return cells;
     }
+
+
+    public Graph buildGraph() {
+        Graph g = new Graph(row * col);
+
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                g.setPosition(toIndex(c, r), c * cellWid, r * cellLen); // create node for each grid cell in gameboard
+            }
+        }
+
+        int[][] directions = {{1,0},{-1,0},{0,1},{0,-1}}; // 4 neighbors
+
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                if (!isWalkable(getCellAt(c, r))) continue; // skip unwalkable cells (obstacles)
+
+                for (int[] d : directions) {
+                    int nieghborcCol = c + d[0];
+                    int nieghborcRow = r + d[1];
+
+                    if (nieghborcRow < 0 || nieghborcRow >= row || nieghborcCol < 0 || nieghborcCol >= col) continue; // skip out-of-bounds cells
+                    if (!isWalkable(getCellAt(nieghborcCol, nieghborcRow))) continue; // skip unwalkable neighbor cells (obstacles)
+
+                    g.addEdge(toIndex(c, r), toIndex(nieghborcCol, nieghborcRow), 1.0);
+                }
+            }
+        }
+        return g;
+    }
+
+    private boolean isWalkable(CellType cell) {
+        return cell == CellType.EMPTY || cell == CellType.FLOWER
+            || cell == CellType.GEM   || cell == CellType.MUSHROOM;
+    }
+
+    public int toIndex(int x, int y) {
+        return y * col + x; 
+    }
+
+    public int[] toCoords(int index) { 
+        return new int[]{ index % col, index / col }; 
+    }
+
+    /**
+     * 
+     * Shows up the path to the collecitble
+     * 
+     */
+    public void showPath(int startX, int startY, int goalX, int goalY) {
+        Graph g = buildGraph();
+        aStar astar = new aStar(g);
+        List<Integer> path = astar.path(toIndex(startX, startY), toIndex(goalX, goalY));
+
+        for (int idx : path) {
+            int[] coords = toCoords(idx);
+            // however we are visually displaying the path
+            // ex:
+            // clearCellAt(coords[0], coords[1]);
+            // Rectangle cell = new Rectangle(coords[0]*cellLen, coords[1]*cellWid, cellWid, cellLen);
+            // cell.setFillColor(cellDisplayColors.get(getCellAt(c, r))); // cell type of path
+            // board.put(new Point(c, r), cell);
+            // canvas.add(cell);
+        }
+    }
+
 }

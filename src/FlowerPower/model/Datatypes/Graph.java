@@ -3,6 +3,9 @@ package FlowerPower.model.Datatypes;
 import java.util.ArrayList;
 import java.util.List;
 
+// should we use this to store all possible ways/paths the explorer can take when they move into the next cell? 
+// so it gets replaced everytime the player moves? or we could have it reset whenever the camera moves?
+
 public class Graph {
 
     private final int V;
@@ -16,6 +19,9 @@ public class Graph {
 
         this.V = V;
         this.E = 0;
+
+        x = new double[V];
+        y = new double[V];
         
         matrix = new double[V][V];
         for (int i = 0; i < V; i++) {
@@ -136,7 +142,7 @@ public class Graph {
     public double euclidean(int u, int v) {
         double dx = x[u] - x[v];
         double dy = y[u] - y[v];
-        
+
         return Math.sqrt(dx * dx + dy * dy);
     }
 
