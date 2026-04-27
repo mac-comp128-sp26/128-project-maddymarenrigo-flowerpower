@@ -157,19 +157,37 @@ public class Gameboard {
         }
     }
     
+    /**
+     * Marks the cell at (x, y) on the world map as part of the current path
+     * @param x
+     * @param y
+     */
     public void markCellAt(int x, int y) {
         if (x < 0 || y < 0 || x >= col || y >= row) {
             return;
         }
         cells.get(y).set(x, CellType.PATH);
         if (board.get(new Point(x, y)) != null) {
-            board.get(new Point(x, y)).setFillColor(cellDisplayColors.get(CellType.PATH));
+            canvas.remove(board.get(new Point(x, y)));
+            board.remove(new Point(x, y));
+            Rectangle cell = new Rectangle(x*cellLen, y*cellWid, cellWid, cellLen);
+            cell.setFillColor(cellDisplayColors.get(CellType.PATH));
+            board.put(new Point(x, y), cell);
+            canvas.add(cell);
         }
     }
 
+    /**
+     * Unmarks the cell at (x, y) so it's empty again
+     * @param x
+     * @param y
+     */
     public void unmarkCellAt(int x, int y) {
         if (x < 0 || y < 0 || x >= col || y >= row) {
             return;
+        }
+        if (cells.get(y).get(x) == CellType.PATH) {
+            clearCellAt(x, y);
         }
     }
 
