@@ -34,23 +34,21 @@ public class aStar {
 
         int V = graph.V();
 
-        // gScore[v] = cheapest known cost from start to v
-        double[] gScore = new double[V];
-        Arrays.fill(gScore, Double.POSITIVE_INFINITY);
-        gScore[start] = 0.0;
+        double[] gScore  = new double[V];
+        double[] fScore  = new double[V];
+        int[]    cameFrom = new int[V];
 
-        // fScore[v] = gScore[v] + h(v)  — the value A* sorts by
-        double[] fScore = new double[V];
-        Arrays.fill(fScore, Double.POSITIVE_INFINITY);
+        for (int i = 0; i < V; i++) {
+            gScore[i]   = Double.POSITIVE_INFINITY;
+            fScore[i]   = Double.POSITIVE_INFINITY;
+            cameFrom[i] = -1;
+        }
+
+        gScore[start] = 0.0;
         fScore[start] = heuristic(start, goal);
 
-        // cameFrom[v] = the node immediately before v on the best path found so far
-        int[] cameFrom = new int[V];
-        Arrays.fill(cameFrom, -1);
-
         // Min-heap: [nodeIndex, fScore]
-        PriorityQueue<int[]> open = new PriorityQueue<>(
-                Comparator.comparingDouble(entry -> fScore[entry[0]]));
+        PriorityQueue<int[]> open = new PriorityQueue<>(Comparator.comparingDouble(entry -> fScore[entry[0]]));
         open.offer(new int[]{start});
 
         boolean[] closed = new boolean[V];
