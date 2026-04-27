@@ -156,6 +156,22 @@ public class Gameboard {
             board.remove(new Point(x, y));
         }
     }
+    
+    public void markCellAt(int x, int y) {
+        if (x < 0 || y < 0 || x >= col || y >= row) {
+            return;
+        }
+        cells.get(y).set(x, CellType.PATH);
+        if (board.get(new Point(x, y)) != null) {
+            board.get(new Point(x, y)).setFillColor(cellDisplayColors.get(CellType.PATH));
+        }
+    }
+
+    public void unmarkCellAt(int x, int y) {
+        if (x < 0 || y < 0 || x >= col || y >= row) {
+            return;
+        }
+    }
 
     /**
      * Returns a list of the CellTypes of all of the neighbors of the cell at position (x, y) in mathematical order from 0° to 360°
