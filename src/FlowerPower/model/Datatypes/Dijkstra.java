@@ -29,10 +29,18 @@ public class Dijkstra {
             }
             for(int p : graph.adj(node)) {
                 int weight = (int) graph.weight(node, p);
+
+                if(dist[node] + weight < dist[p]) {
+                    dist[p] = dist[node] + weight;
+                    pq.offer(new int[]{dist[p], p});
+                }
             }
         }
-
-        return null;
+        ArrayList<Integer> results = new ArrayList<>();
+        for(int d: dist) {
+            results.add(d);
+        }
+        return results;
     }
 
 }
