@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Map.Entry;
 
 import FlowerPower.model.Datatypes.Graph;
@@ -13,6 +14,7 @@ import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsObject;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
+import java.util.Random;
 
 public class Gameboard {
 
@@ -82,8 +84,8 @@ public class Gameboard {
 
     //update cells
     public void generateBoard() {
-        int x = 2;
-        int y = 3;
+        int x = (int) Math.random() * 256;
+        int y = (int) Math.random() * 256;
         // CellType cell = cells.get(y).get(x);
         // cell = CellType.FLOWER;
         cells.get(y).set(x, CellType.FLOWER);
