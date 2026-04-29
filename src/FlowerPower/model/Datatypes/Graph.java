@@ -105,12 +105,12 @@ public class Graph {
      * @return the vertices adjacent to vertex {@code v}, as an iterable
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
      */
-    public List<Integer> adj(int v) {
+    public int[] adj(int v) {
         validateVertex(v);
-        List<Integer> adj = new ArrayList<>();
+        int[] adj = new int[V];
         for (int i = 0; i < V; i++) {
             if(matrix[i][v] != 0.0) {
-                adj.add(i);
+                adj[i] = i;
             }
         }
         return adj;
