@@ -81,7 +81,7 @@ public class Explorer {
 
     public void updateOnscreenPosition() {
         Point newPosition = gameboard.getOnscreenPosition(x, y);
-        icon.setCenter(newPosition);
+        icon.setPosition(newPosition);
     }
 
     // --- getters ---
