@@ -80,6 +80,15 @@ public class Gameboard {
         
     }
 
+    //update cells
+    public void generateBoard() {
+        int x = 2;
+        int y = 3;
+        // CellType cell = cells.get(y).get(x);
+        // cell = CellType.FLOWER;
+        cells.get(y).set(x, CellType.FLOWER);
+    }
+
     /**
      * Sets up the visual gameboard in board (assuming the level has already been generated) and adds it to the canvas
      */
