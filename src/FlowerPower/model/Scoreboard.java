@@ -1,12 +1,9 @@
 package FlowerPower.model;
 
-
 import java.awt.Color;
-import java.util.ArrayList;
 
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.GraphicsText;
-import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
 
 public class Scoreboard {
@@ -69,7 +66,7 @@ public class Scoreboard {
     }
 
     private void styleFonts(){
-
+       //.setFont(FontStyle, size)
     }
 
 }
