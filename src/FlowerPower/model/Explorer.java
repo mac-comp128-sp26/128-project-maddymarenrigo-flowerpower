@@ -14,9 +14,9 @@ public class Explorer {
     private double speed;
     private double movementTimer;
 
-    public int flowersCollected;
-    public int gemsCollected;
-    public int mushroomsCollected;
+    public static int flowersCollected;
+    public static int gemsCollected;
+    public static int mushroomsCollected;
 
     private int x; // world map position
     private int y; // world map position
