@@ -10,11 +10,13 @@ import edu.macalester.graphics.Rectangle;
 public class Explorer {
 
     public GraphicsGroup icon;
-    private int score;
     private Gameboard gameboard;
     private double speed;
     private double movementTimer;
-    
+
+    public int flowersCollected;
+    public int gemsCollected;
+    public int mushroomsCollected;
 
     private int x; // world map position
     private int y; // world map position
@@ -26,6 +28,10 @@ public class Explorer {
         this.movementTimer = this.speed;
         this.x = 0;
         this.y = 0;
+
+        this.flowersCollected = 0;
+        this.gemsCollected = 0;
+        this.mushroomsCollected = 0;
 
         //icon
         Rectangle explorerIcon = new Rectangle(0, 0, (int) MainApp.TILE_SIZE, (int) MainApp.TILE_SIZE);
@@ -96,9 +102,5 @@ public class Explorer {
 
     public Point getOnscreenPosition() {
         return icon.getCenter();
-    }
-
-    public int getScore() {
-        return score;
     }
 }

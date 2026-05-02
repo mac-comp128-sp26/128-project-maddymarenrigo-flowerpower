@@ -110,6 +110,8 @@ public class SpacedRandom {
 
         List<Point> spacedPoints = yieldPoints(numPoints, minDistance, 256, bias);
         
+        // grid for reference
+        /*
         int x = 0;
         int y = 0;
         while (x < canvas.getWidth()) {
@@ -120,6 +122,7 @@ public class SpacedRandom {
             x += minDistance;
             y = 0;
         }
+        */
 
         for (Point point : spacedPoints) {
             canvas.add(new Rectangle(point, Point.ONE_ONE));
