@@ -1,11 +1,9 @@
 package FlowerPower.model;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Map.Entry;
 
 import FlowerPower.model.Datatypes.Graph;
@@ -14,9 +12,7 @@ import FlowerPower.model.Datatypes.aStar;
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsObject;
 import edu.macalester.graphics.Point;
-import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.Image;
-import java.util.Random;
 
 public class Gameboard {
 
@@ -25,7 +21,7 @@ public class Gameboard {
     List<List<CellType>> cells; // get a cell with cells.get(y).get(x)
 
     Map<CellType, String> cellDisplayColors; // temporary for temp graphics; will replace this with a map from cell types to graphics to display
-
+    
     // grid gameboard dimensions
     private int row; // number of rows (height)
     private int col; // number of cols (width)
@@ -56,13 +52,13 @@ public class Gameboard {
 
         /* set up cellDisplayColors */
         cellDisplayColors = new HashMap<CellType, String>();
-        //cellDisplayColors.put(CellType.EMPTY, new Color(0, 0, 0, 0));
+
         cellDisplayColors.put(CellType.BUSH, "catBush.png"); // Color(21, 115, 46)
         cellDisplayColors.put(CellType.ROCK, "rock.png"); // Color(92, 92, 92)
         cellDisplayColors.put(CellType.TREE, "tree.png"); // Color(94, 36, 8)
         cellDisplayColors.put(CellType.WALL, "brik.png"); // Color(212, 126, 114)
         cellDisplayColors.put(CellType.FLOWER, "flower.png"); // Color(255, 0, 212)
-        cellDisplayColors.put(CellType.GEM, "gem-export.png"); // olor(0, 102, 255)
+        cellDisplayColors.put(CellType.GEM, "gem-export.png"); // Color(0, 102, 255)
         cellDisplayColors.put(CellType.MUSHROOM, "mushroom1.png"); // Color(181, 139, 98)
 
 

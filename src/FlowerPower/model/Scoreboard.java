@@ -26,7 +26,7 @@ public class Scoreboard extends GraphicsGroup{
     }
 
     private void setup(){
-        window = new Rectangle(0, 0, 200, 130);
+        window = new Rectangle(0, 0, 215, 130);
         window.setFillColor(Color.LIGHT_GRAY);
         this.add(window);
 
@@ -40,26 +40,26 @@ public class Scoreboard extends GraphicsGroup{
         this.add(coordsLabel);
 
         // Flower score
-        GraphicsText flowerLabel = new GraphicsText("Flower Score: ");
+        GraphicsText flowerLabel = new GraphicsText("Flowers Collected: ");
         flowerLabel.setPosition(5, 35);
         flowerScore = new GraphicsText("0");
-        flowerScore.setPosition(150, 35);
+        flowerScore.setPosition(180, 35);
         this.add(flowerScore);
         this.add(flowerLabel);
 
         // Mushroom score
-        GraphicsText mushLabel = new GraphicsText("Mushroom Score: ");
+        GraphicsText mushLabel = new GraphicsText("Mushrooms Collected: ");
         mushLabel.setPosition(5, 55);
         mushScore = new GraphicsText("0");
-        mushScore.setPosition(150, 55);
+        mushScore.setPosition(180, 55);
         this.add(mushScore);
         this.add(mushLabel);
 
         // Gem score
-        GraphicsText gemLabel = new GraphicsText("Gem Score: ");
+        GraphicsText gemLabel = new GraphicsText("Gems Collected: ");
         gemLabel.setPosition(5, 75);
         gemScore = new GraphicsText("0");
-        gemScore.setPosition(150, 75);
+        gemScore.setPosition(180, 75);
         this.add(gemScore);
         this.add(gemLabel);
         
@@ -93,7 +93,7 @@ public class Scoreboard extends GraphicsGroup{
             gemScore.setText(gemNum);
         }
 
-        String totalNum = String.valueOf(Explorer.gemsCollected + Explorer.flowersCollected + Explorer.mushroomsCollected);
+        String totalNum = String.valueOf(Explorer.totalScore);
         totalScore.setText(totalNum);
 
         String coordString = coordBuilder(Explorer.colPos, Explorer.rowPos);

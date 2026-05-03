@@ -20,6 +20,7 @@ public class Explorer {
     public static int flowersCollected;
     public static int gemsCollected;
     public static int mushroomsCollected;
+    public static int totalScore;
 
     public static int rowPos;
     public static int colPos;
@@ -62,8 +63,11 @@ public class Explorer {
     public void moveUp() {
         movementTimer--;
         if (movementTimer <= 0) {
-            y--;
             movementTimer = speed;
+            if (!isBlocked(x, y - 1)) {
+                y--;
+                handleCollectible(x, y);
+            }
         }
         updateOnscreenPosition();
     }
@@ -71,8 +75,11 @@ public class Explorer {
     public void moveDown() {
         movementTimer--;
         if (movementTimer <= 0) {
-            y++;
             movementTimer = speed;
+            if (!isBlocked(x, y + 1)) {
+                y++;
+                handleCollectible(x, y);
+            }
         }
         updateOnscreenPosition();
     }
@@ -80,8 +87,11 @@ public class Explorer {
     public void moveLeft() {
         movementTimer--;
         if (movementTimer <= 0) {
-            x--;
             movementTimer = speed;
+            if (!isBlocked(x - 1, y)) {
+                x--;
+                handleCollectible(x, y);
+            }
         }
         updateOnscreenPosition();
     }
@@ -89,8 +99,11 @@ public class Explorer {
     public void moveRight() {
         movementTimer--;
         if (movementTimer <= 0) {
-            x++;
             movementTimer = speed;
+            if (!isBlocked(x + 1, y)) {
+                x++;
+                handleCollectible(x, y);
+            }
         }
         updateOnscreenPosition();
     }
@@ -103,10 +116,38 @@ public class Explorer {
         colPos = x;
     }
 
-    public void handleCollisions(){
-        // if collides with certain collectible object, increase respected score by the resepected points assigned
-        // if collide with collectible object, explore picks it up and the object is removed from the gameboard visually and from the graph
-        // if collide with obstacle, cannot continue moving "over it" --> movement blocked
+    /**
+     * Returns true if the cell at (x, y) is an obstacle the explorer can't walk through.
+     */
+    private boolean isBlocked(int x, int y) {
+        CellType cell = gameboard.getCellAt(x, y);
+        return cell == CellType.WALL
+            || cell == CellType.BUSH
+            || cell == CellType.TREE
+            || cell == CellType.ROCK;
+    }
+
+    private void handleCollectible(int x, int y) {
+        CellType cell = gameboard.getCellAt(x, y);
+        switch (cell) {
+            case FLOWER:
+                flowersCollected++;
+                totalScore += FLOWER_POINTS;
+                gameboard.clearCellAt(x, y);
+                break;
+            case MUSHROOM:
+                mushroomsCollected++;
+                totalScore += MUSH_POINTS;
+                gameboard.clearCellAt(x, y);
+                break;
+            case GEM:
+                gemsCollected++;
+                totalScore += GEM_POINTS;
+                gameboard.clearCellAt(x, y);
+                break;
+            default:
+                break;
+        }
     }
 
     // --- getters ---
@@ -116,7 +157,7 @@ public class Explorer {
     }
 
     public double getY() {
-        return x;
+        return y;
     }
 
     public Point getOnscreenPosition() {
