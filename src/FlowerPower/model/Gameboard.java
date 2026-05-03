@@ -9,11 +9,13 @@ import java.util.Random;
 import java.util.Map.Entry;
 
 import FlowerPower.model.Datatypes.Graph;
+import FlowerPower.model.Datatypes.SpacedRandom;
 import FlowerPower.model.Datatypes.aStar;
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsObject;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
+import edu.macalester.graphics.Image;
 import java.util.Random;
 
 public class Gameboard {
@@ -22,7 +24,7 @@ public class Gameboard {
     Map<Point, GraphicsObject> board; // maps world map coordinates to the GraphicsObject for the tile
     List<List<CellType>> cells; // get a cell with cells.get(y).get(x)
 
-    Map<CellType, Color> cellDisplayColors; // temporary for temp graphics; will replace this with a map from cell types to graphics to display
+    Map<CellType, String> cellDisplayColors; // temporary for temp graphics; will replace this with a map from cell types to graphics to display
 
     // grid gameboard dimensions
     private int row; // number of rows (height)
@@ -53,15 +55,15 @@ public class Gameboard {
         }
 
         /* set up cellDisplayColors */
-        cellDisplayColors = new HashMap<CellType, Color>();
-        cellDisplayColors.put(CellType.EMPTY, new Color(0, 0, 0, 0));
-        cellDisplayColors.put(CellType.BUSH, new Color(21, 115, 46));
-        cellDisplayColors.put(CellType.ROCK, new Color(92, 92, 92));
-        cellDisplayColors.put(CellType.TREE, new Color(94, 36, 8));
-        cellDisplayColors.put(CellType.WALL, new Color(212, 126, 114));
-        cellDisplayColors.put(CellType.FLOWER, new Color(255, 0, 212));
-        cellDisplayColors.put(CellType.GEM, new Color(0, 102, 255));
-        cellDisplayColors.put(CellType.MUSHROOM, new Color(181, 139, 98));
+        cellDisplayColors = new HashMap<CellType, String>();
+        //cellDisplayColors.put(CellType.EMPTY, new Color(0, 0, 0, 0));
+        cellDisplayColors.put(CellType.BUSH, "catBush.png"); // Color(21, 115, 46)
+        cellDisplayColors.put(CellType.ROCK, "rock.png"); // Color(92, 92, 92)
+        cellDisplayColors.put(CellType.TREE, "tree.png"); // Color(94, 36, 8)
+        cellDisplayColors.put(CellType.WALL, "brik.png"); // Color(212, 126, 114)
+        cellDisplayColors.put(CellType.FLOWER, "flower.png"); // Color(255, 0, 212)
+        cellDisplayColors.put(CellType.GEM, "gem-export.png"); // olor(0, 102, 255)
+        cellDisplayColors.put(CellType.MUSHROOM, "mushroom1.png"); // Color(181, 139, 98)
 
 
         this.row = row;
@@ -84,11 +86,24 @@ public class Gameboard {
 
     //update cells
     public void generateBoard() {
-        int x = (int) Math.random() * 256;
-        int y = (int) Math.random() * 256;
+        // int x = (int) Math.random() * 256;
+        // int y = (int) Math.random() * 256;
         // CellType cell = cells.get(y).get(x);
         // cell = CellType.FLOWER;
-        cells.get(y).set(x, CellType.FLOWER);
+        // cells.get(y).set(x, CellType.FLOWER);
+        List<Point> randomPoints = SpacedRandom.roundPoints(SpacedRandom.yieldPoints(24, 20, 256));
+        for(int i = 0; i < 24; i++) {
+            Point topPoint = randomPoints.get(i);
+            if(i < 10) {
+                System.out.println(topPoint);
+                System.out.println("i = " + i);
+                cells.get((int) topPoint.getY()).set((int) topPoint.getX(), CellType.FLOWER);
+            } else if(i < 18) {
+                cells.get((int) topPoint.getY()).set((int) topPoint.getX(), CellType.MUSHROOM);
+            } else {
+                cells.get((int) topPoint.getY()).set((int) topPoint.getX(), CellType.GEM);
+            }
+        }
     }
 
     /**
@@ -98,8 +113,8 @@ public class Gameboard {
         for (int r = 0; r < row; r++){
             for (int c = 0; c < col; c++) {
                 if (getCellAt(c, r) != CellType.EMPTY) {
-                    Rectangle cell = new Rectangle(c*cellLen, r*cellWid, cellWid, cellLen);
-                    cell.setFillColor(cellDisplayColors.get(getCellAt(c, r)));
+                    Image cell = new Image(c*cellLen, r*cellWid);
+                    cell.setImagePath(cellDisplayColors.get(getCellAt(c, r)));
                     board.put(new Point(c, r), cell);
                     canvas.add(cell);
                 }
@@ -181,8 +196,8 @@ public class Gameboard {
         if (board.get(new Point(x, y)) != null) {
             canvas.remove(board.get(new Point(x, y)));
             board.remove(new Point(x, y));
-            Rectangle cell = new Rectangle(x*cellLen, y*cellWid, cellWid, cellLen);
-            cell.setFillColor(cellDisplayColors.get(CellType.PATH));
+            Image cell = new Image(x*cellLen, y*cellWid);
+            cell.setImagePath(cellDisplayColors.get(CellType.PATH));
             board.put(new Point(x, y), cell);
             canvas.add(cell);
         }
