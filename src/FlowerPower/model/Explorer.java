@@ -8,6 +8,9 @@ import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
 
 public class Explorer {
+    private static final int FLOWER_POINTS = 10;
+    private static final int MUSH_POINTS = 50;
+    private static final int GEM_POINTS = 100;
 
     public GraphicsGroup icon;
     private Gameboard gameboard;
@@ -18,8 +21,12 @@ public class Explorer {
     public static int gemsCollected;
     public static int mushroomsCollected;
 
+    public static int rowPos;
+    public static int colPos;
+
     private int x; // world map position
     private int y; // world map position
+
 
     public Explorer(GraphicsGroup icon, Gameboard gameboard) {
         this.icon = icon;          
@@ -28,6 +35,9 @@ public class Explorer {
         this.movementTimer = this.speed;
         this.x = 0;
         this.y = 0;
+
+        this.colPos = 0;
+        this.rowPos = 0;
 
         this.flowersCollected = 0;
         this.gemsCollected = 0;
@@ -88,6 +98,15 @@ public class Explorer {
     public void updateOnscreenPosition() {
         Point newPosition = gameboard.getOnscreenPosition(x, y);
         icon.setPosition(newPosition);
+
+        rowPos = y;
+        colPos = x;
+    }
+
+    public void handleCollisions(){
+        // if collides with certain collectible object, increase respected score by the resepected points assigned
+        // if collide with collectible object, explore picks it up and the object is removed from the gameboard visually and from the graph
+        // if collide with obstacle, cannot continue moving "over it" --> movement blocked
     }
 
     // --- getters ---

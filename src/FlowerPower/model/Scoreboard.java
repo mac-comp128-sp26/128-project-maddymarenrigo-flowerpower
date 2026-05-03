@@ -6,11 +6,11 @@ import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Rectangle;
 
-public class Scoreboard {
+public class Scoreboard extends GraphicsGroup{
 
     private final int SIZE = 100;
 
-    private GraphicsGroup group;
+    //private GraphicsGroup group;
     private Rectangle window;
 
     public GraphicsText mushScore;
@@ -19,33 +19,65 @@ public class Scoreboard {
 
     public GraphicsText totalScore;
 
+    public GraphicsText coords;
+
     public Scoreboard(){
-        group = new GraphicsGroup();
-        
         setup();
     }
 
     private void setup(){
-        window = new Rectangle(0,0,SIZE,SIZE);
+        window = new Rectangle(0, 0, 200, 130);
         window.setFillColor(Color.LIGHT_GRAY);
-        group.add(window);
+        this.add(window);
 
-        mushScore = new GraphicsText("0");
+        //======================
+        // Coordinates
+        GraphicsText coordsLabel = new GraphicsText("Coordinates: ");
+        coordsLabel.setPosition(5, 15);
+        coords = new GraphicsText("(0,0)");
+        coords.setPosition(100, 15);
+        this.add(coords);
+        this.add(coordsLabel);
+
+        // Flower score
+        GraphicsText flowerLabel = new GraphicsText("Flower Score: ");
+        flowerLabel.setPosition(5, 35);
         flowerScore = new GraphicsText("0");
-        gemScore = new GraphicsText("0");
-        group.add(mushScore);
-        group.add(flowerScore);
-        group.add(gemScore);
+        flowerScore.setPosition(150, 35);
+        this.add(flowerScore);
+        this.add(flowerLabel);
 
+        // Mushroom score
+        GraphicsText mushLabel = new GraphicsText("Mushroom Score: ");
+        mushLabel.setPosition(5, 55);
+        mushScore = new GraphicsText("0");
+        mushScore.setPosition(150, 55);
+        this.add(mushScore);
+        this.add(mushLabel);
+
+        // Gem score
+        GraphicsText gemLabel = new GraphicsText("Gem Score: ");
+        gemLabel.setPosition(5, 75);
+        gemScore = new GraphicsText("0");
+        gemScore.setPosition(150, 75);
+        this.add(gemScore);
+        this.add(gemLabel);
+        
+        // Total score
+        GraphicsText totalLabel = new GraphicsText("Total Score: ");
+        totalLabel.setPosition(5, 105);
         totalScore = new GraphicsText("0");
-        group.add(totalScore);
+        totalScore.setPosition(150, 105);
+        this.add(totalScore);
+        this.add(totalLabel);
+        //======================
 
         styleFonts();
-
-        updateScores();
+        updateBoard();
     }
 
-    public void updateScores(){
+    // updates visual text displayed on scoreboard
+    public void updateBoard(){
         String mushNum = String.valueOf(Explorer.mushroomsCollected);
         if (!mushScore.getText().equals(mushNum)){
             mushScore.setText(mushNum);
@@ -63,10 +95,19 @@ public class Scoreboard {
 
         String totalNum = String.valueOf(Explorer.gemsCollected + Explorer.flowersCollected + Explorer.mushroomsCollected);
         totalScore.setText(totalNum);
+
+        String coordString = coordBuilder(Explorer.colPos, Explorer.rowPos);
+        coords.setText(coordString);
     }
 
     private void styleFonts(){
-       //.setFont(FontStyle, size)
+        // FontStyle style = new FontStyle
+        // int size = 25;
+       //GRAPHICSTEXT.setFont(style, size)
+    }
+
+    private String coordBuilder(int x, int y){
+        return "(" + x + "," + y + ")";
     }
 
 }

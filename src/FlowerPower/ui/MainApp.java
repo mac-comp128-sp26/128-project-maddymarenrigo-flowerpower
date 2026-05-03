@@ -6,6 +6,7 @@ import java.util.Set;
 
 import FlowerPower.model.Explorer;
 import FlowerPower.model.Gameboard;
+import FlowerPower.model.Scoreboard;
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.Rectangle;
@@ -24,6 +25,7 @@ public class MainApp {
     private CanvasWindow canvas;
     private Color backgroundColor = new Color(34, 125, 73);
     Explorer explorer;
+    Scoreboard scoreboard;
    
  
     private MainApp() {
@@ -33,6 +35,7 @@ public class MainApp {
         canvas.setBackground(backgroundColor);
         game = new Gameboard(16, 16, canvas); // 256 by 256 for full gameboard
         explorer = new Explorer(new GraphicsGroup(), game);
+        scoreboard = new Scoreboard();
         
         //explorer.icon.add(explorerIcon); 
     }
@@ -59,6 +62,8 @@ public class MainApp {
 
         game.oneFrame();
         explorer.oneFrame();
+        scoreboard.updateBoard();
+        scoreboard.setPosition(0, 0);
     }
 
     private void setUpGame() {
@@ -68,8 +73,9 @@ public class MainApp {
         game.generateBoard(); //(putting the stuff in the cells array)
         game.setup();
         canvas.add(explorer.icon);
+        canvas.add(scoreboard);
+        scoreboard.setPosition(0, 0);
         
-
         // explorer movement
         canvas.animate(this::oneFrame);
     }
