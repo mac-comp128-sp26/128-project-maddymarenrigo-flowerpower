@@ -104,7 +104,7 @@ public class SpacedRandom {
     public static void main(String[] args) {
         CanvasWindow canvas = new CanvasWindow("SpacedRandom", 256, 256);
         
-        int numPoints = 300;
+        int numPoints = 20;
         double minDistance = 20;
         double bias = 0.3;
 
