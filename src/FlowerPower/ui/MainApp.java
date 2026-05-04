@@ -59,6 +59,11 @@ public class MainApp {
         if (keys.contains(edu.macalester.graphics.events.Key.DOWN_ARROW)) explorer.moveDown();
         if (keys.contains(edu.macalester.graphics.events.Key.RIGHT_ARROW)) explorer.moveRight();
         if (keys.contains(edu.macalester.graphics.events.Key.LEFT_ARROW)) explorer.moveLeft();
+        // Reset movement timers if the player isn't moving
+        if (! (keys.contains(edu.macalester.graphics.events.Key.UP_ARROW)
+            || keys.contains(edu.macalester.graphics.events.Key.DOWN_ARROW)
+            || keys.contains(edu.macalester.graphics.events.Key.RIGHT_ARROW)
+            || keys.contains(edu.macalester.graphics.events.Key.LEFT_ARROW))) explorer.resetSpeed();
 
         game.oneFrame();
         explorer.oneFrame();

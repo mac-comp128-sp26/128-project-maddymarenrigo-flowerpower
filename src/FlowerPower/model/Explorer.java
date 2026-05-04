@@ -17,6 +17,9 @@ public class Explorer {
     private Image iconImage;
     private Gameboard gameboard;
     private double speed;
+    private final double BASE_SPEED = 4.0;
+    private final double MAX_SPEED = 2.0;
+    private final double ACCELERATION = 0.99;
     private double movementTimer;
 
     public static int flowersCollected;
@@ -28,6 +31,7 @@ public class Explorer {
     public static int colPos;
 
     private int animationState;
+    private boolean movedAlready;
 
     private int x; // world map position
     private int y; // world map position
@@ -36,8 +40,9 @@ public class Explorer {
     public Explorer(GraphicsGroup icon, Gameboard gameboard) {
         this.icon = icon;          
         this.gameboard = gameboard;
-        this.speed = 5.0;
-        this.movementTimer = this.speed;
+        this.speed = BASE_SPEED;
+        this.movementTimer = 0;
+        this.movedAlready = false;
         this.x = 0;
         this.y = 0;
 
@@ -63,6 +68,7 @@ public class Explorer {
     public void oneFrame() {
         gameboard.updateCamera(x, y);
         updateOnscreenPosition();
+        movedAlready = false;
     }
 
     // --- movement methods ---
@@ -71,6 +77,7 @@ public class Explorer {
         movementTimer--;
         if (movementTimer <= 0) {
             movementTimer = speed;
+            updateSpeed();
             if (!isBlocked(x, y - 1)) {
                 y--;
                 updateAnimationWalking();
@@ -86,6 +93,7 @@ public class Explorer {
         movementTimer--;
         if (movementTimer <= 0) {
             movementTimer = speed;
+            updateSpeed();
             if (!isBlocked(x, y + 1)) {
                 y++;
                 updateAnimationWalking();
@@ -101,6 +109,7 @@ public class Explorer {
         movementTimer--;
         if (movementTimer <= 0) {
             movementTimer = speed;
+            updateSpeed();
             if (!isBlocked(x - 1, y)) {
                 x--;
                 updateAnimationWalking();
@@ -116,6 +125,7 @@ public class Explorer {
         movementTimer--;
         if (movementTimer <= 0) {
             movementTimer = speed;
+            updateSpeed();
             if (!isBlocked(x + 1, y)) {
                 x++;
                 updateAnimationWalking();
@@ -125,6 +135,19 @@ public class Explorer {
             }
         }
         updateOnscreenPosition();
+    }
+
+    public void updateSpeed() {
+        if (!movedAlready) {
+            speed *= ACCELERATION;
+            if (speed < MAX_SPEED) speed = MAX_SPEED;
+        }
+        movedAlready = true;
+    }
+
+    public void resetSpeed() {
+        movementTimer = 0;
+        speed = BASE_SPEED;
     }
 
     public void updateOnscreenPosition() {
@@ -180,6 +203,7 @@ public class Explorer {
 
     private void updateAnimationBlocked() {
         animationState = 0;
+        resetSpeed();
         updateAnimationFrame();
     }
 
