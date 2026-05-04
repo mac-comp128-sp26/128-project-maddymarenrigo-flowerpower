@@ -80,19 +80,39 @@ public class Gameboard {
         
     }
 
+    private void setObsticalInLine(Point top, CellType CellType) {
+        if(Math.random() < 0.5) {
+            cells.get((int) top.getY()).set((int) top.getX(), CellType);
+            cells.get((int) top.getY()).set((int) top.getX() + 1, CellType);
+            cells.get((int) top.getY()).set((int) top.getX() + 2, CellType);
+            cells.get((int) top.getY()).set((int) top.getX() + 3, CellType);
+            cells.get((int) top.getY()).set((int) top.getX() + 4, CellType);
+        } else {
+            cells.get((int) top.getY()).set((int) top.getX(), CellType);
+            cells.get((int) top.getY() + 1).set((int) top.getX(), CellType);
+            cells.get((int) top.getY() + 2).set((int) top.getX(), CellType);
+            cells.get((int) top.getY() + 3).set((int) top.getX(), CellType);
+            cells.get((int) top.getY() + 4).set((int) top.getX(), CellType);
+        }
+    }
+
     //update cells
     public void generateBoard() {
-        // int x = (int) Math.random() * 256;
-        // int y = (int) Math.random() * 256;
-        // CellType cell = cells.get(y).get(x);
-        // cell = CellType.FLOWER;
-        // cells.get(y).set(x, CellType.FLOWER);
+        List<Point> obsicalRandomPoints = SpacedRandom.roundPoints(SpacedRandom.yieldPoints(90, 20, 256));
+        for(int i = 0; i < 90; i++) {
+            Point top = obsicalRandomPoints.get(i);
+            if(i < 30) {
+                setObsticalInLine(top, CellType.BUSH);
+            } else if(i < 60) {
+                setObsticalInLine(top, CellType.TREE);
+            } else {
+                setObsticalInLine(top, CellType.ROCK);
+            }
+        }
         List<Point> randomPoints = SpacedRandom.roundPoints(SpacedRandom.yieldPoints(24, 20, 256));
         for(int i = 0; i < 24; i++) {
             Point topPoint = randomPoints.get(i);
             if(i < 10) {
-                System.out.println(topPoint);
-                System.out.println("i = " + i);
                 cells.get((int) topPoint.getY()).set((int) topPoint.getX(), CellType.FLOWER);
             } else if(i < 18) {
                 cells.get((int) topPoint.getY()).set((int) topPoint.getX(), CellType.MUSHROOM);
