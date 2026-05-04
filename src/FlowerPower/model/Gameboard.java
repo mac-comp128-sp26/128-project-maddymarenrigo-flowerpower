@@ -81,14 +81,14 @@ public class Gameboard {
     }
 
     private void setTile(int x, int y, CellType CellType) {
-        System.out.println("set tile reached");
+        //System.out.println("set tile reached");
         if(x < 0 || x > 256) {
             return;
         } else if(y < 0 || y > 256) {
             return;
         }
         cells.get(y).set( x, CellType);
-        System.out.println("set the tile");
+        //System.out.println("set the tile");
     }
 
     private void setObstaclesInLine(Point top, CellType CellType) {
