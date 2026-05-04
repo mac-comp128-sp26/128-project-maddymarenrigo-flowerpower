@@ -2,6 +2,7 @@ package FlowerPower.model;
 
 import java.awt.Color;
 
+import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Image;
@@ -13,6 +14,8 @@ public class Scoreboard extends GraphicsGroup{
 
     //private GraphicsGroup group;
     private Rectangle window;
+    private CanvasWindow canvas;
+    private Gameboard board;
 
     private int mushNum;
     private int flowerNum;
@@ -29,8 +32,11 @@ public class Scoreboard extends GraphicsGroup{
     public Image flowerButton;
     public Image gemButton;
 
-    public Scoreboard(){
+    public Scoreboard(CanvasWindow canvas, Gameboard board){
+        this.canvas = canvas;
+        this.board = board;
         setup();
+        clickEvents();
     }
 
     private void setup(){
@@ -137,6 +143,58 @@ public class Scoreboard extends GraphicsGroup{
         //======================
         
         updateBoard();
+    }
+
+    public void clickEvents(){
+        /**
+         *  Click events
+         */
+        canvas.onClick(event -> {
+            double x = event.getPosition().getX();
+            double y = event.getPosition().getY();
+
+            if (flowerButton.testHitInLocalCoordinates(x, y)) {
+                int [] closest = board.findClosest("flower");
+                board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1]);
+            } 
+
+            if (mushButton.testHitInLocalCoordinates(x, y)) {
+                int [] closest = board.findClosest("mush");
+                board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1]);
+            } 
+
+            if (gemButton.testHitInLocalCoordinates(x, y)) {
+                int [] closest = board.findClosest("gem");
+                board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1]);
+            }
+        });
+
+        /**
+         * Hover effects
+         */
+        canvas.onMouseMove(event -> {
+            double x = event.getPosition().getX();
+            double y = event.getPosition().getY();
+
+            if (flowerButton.testHitInLocalCoordinates(x, y)) {
+                flowerButton.setScale(1.25);
+            } else {
+                flowerButton.setScale(1);
+            }
+
+            if (mushButton.testHitInLocalCoordinates(x, y)) {
+                mushButton.setScale(1.25);
+            } else {
+                mushButton.setScale(1);
+            }
+
+            if (gemButton.testHitInLocalCoordinates(x, y)) {
+                gemButton.setScale(1.25);
+            } else {
+                gemButton.setScale(1);
+            }
+
+        });
     }
 
     // updates visual text displayed on scoreboard

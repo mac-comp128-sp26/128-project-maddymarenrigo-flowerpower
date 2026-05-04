@@ -35,7 +35,7 @@ public class MainApp {
         canvas.setBackground(backgroundColor);
         game = new Gameboard(256, 256, canvas); // 256 by 256 for full gameboard
         explorer = new Explorer(new GraphicsGroup(), game);
-        scoreboard = new Scoreboard();
+        scoreboard = new Scoreboard(canvas, game);
         
         //explorer.icon.add(explorerIcon); 
     }

@@ -1,5 +1,6 @@
 package FlowerPower.model;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import FlowerPower.model.Datatypes.Graph;
 import FlowerPower.model.Datatypes.SpacedRandom;
 import FlowerPower.model.Datatypes.aStar;
 import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.GraphicsObject;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Image;
@@ -385,12 +387,18 @@ public class Gameboard {
             int[] coords = toCoords(idx);
             // however we are visually displaying the path
             // ex:
-            // clearCellAt(coords[0], coords[1]);
-            // Rectangle cell = new Rectangle(coords[0]*cellLen, coords[1]*cellWid, cellWid, cellLen);
-            // cell.setFillColor(cellDisplayColors.get(getCellAt(c, r))); // cell type of path
-            // board.put(new Point(c, r), cell);
-            // canvas.add(cell);
+            clearCellAt(coords[0], coords[1]);
+            Rectangle cell = new Rectangle(coords[0]*cellLen, coords[1]*cellWid, cellWid, cellLen);
+            cell.setFillColor(Color.BLUE); // cell type of path
+            board.put(new Point(coords[0], coords[1]), cell);
+            canvas.add(cell);
         }
+    }
+
+    public int[] findClosest(String name){
+        int[] coord = new int[2];
+
+        return coord;
     }
 
 }
