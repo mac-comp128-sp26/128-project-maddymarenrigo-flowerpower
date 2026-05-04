@@ -95,6 +95,32 @@ public class Gameboard {
             cells.get((int) top.getY() + 4).set((int) top.getX(), CellType);
         }
     }
+    
+    private void setTrees(Point top) {
+        if(Math.random() < 0.5) {
+            cells.get((int) top.getY()).set((int) top.getX(), CellType.TREE);
+            cells.get((int) top.getY()).set((int) top.getX() - 1, CellType.TREE);
+            cells.get((int) top.getY()).set((int) top.getX() + 2, CellType.TREE);
+            cells.get((int) top.getY() - 1).set((int) top.getX() + 3, CellType.TREE);
+            cells.get((int) top.getY() + 3).set((int) top.getX() - 4, CellType.TREE);
+            cells.get((int) top.getY() - 5).set((int) top.getX() + 4, CellType.TREE);
+            cells.get((int) top.getY() + 2).set((int) top.getX() - 2, CellType.TREE);
+            cells.get((int) top.getY() + 4).set((int) top.getX(), CellType.TREE);
+            cells.get((int) top.getY() - 3).set((int) top.getX(), CellType.TREE);
+            cells.get((int) top.getY() - 1).set((int) top.getX(), CellType.TREE);
+        } else {
+            cells.get((int) top.getY()).set((int) top.getX(), CellType.TREE);
+            cells.get((int) top.getY()).set((int) top.getX() - 2, CellType.TREE);
+            cells.get((int) top.getY()).set((int) top.getX() + 4, CellType.TREE);
+            cells.get((int) top.getY() - 1).set((int) top.getX() + 1, CellType.TREE);
+            cells.get((int) top.getY() + 2).set((int) top.getX() - 1, CellType.TREE);
+            cells.get((int) top.getY() - 3).set((int) top.getX() + 5, CellType.TREE);
+            cells.get((int) top.getY() + 3).set((int) top.getX() - 1, CellType.TREE);
+            cells.get((int) top.getY() + 1).set((int) top.getX() + 4, CellType.TREE);
+            cells.get((int) top.getY() - 4).set((int) top.getX(), CellType.TREE);
+            cells.get((int) top.getY() - 5).set((int) top.getX(), CellType.TREE);
+        }
+    }
 
     //update cells
     public void generateBoard() {
@@ -104,7 +130,8 @@ public class Gameboard {
             if(i < 30) {
                 setObstaclesInLine(top, CellType.BUSH);
             } else if(i < 60) {
-                setObstaclesInLine(top, CellType.TREE);
+                //setObstaclesInLine(top, CellType.TREE);
+                setTrees(top);
             } else {
                 setObstaclesInLine(top, CellType.ROCK);
             }
