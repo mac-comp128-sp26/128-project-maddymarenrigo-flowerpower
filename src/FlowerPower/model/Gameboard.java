@@ -80,45 +80,87 @@ public class Gameboard {
         
     }
 
+    private void setTile(int x, int y, CellType CellType) {
+        System.out.println("set tile reached");
+        if(x < 0 || x > 256) {
+            return;
+        } else if(y < 0 || y > 256) {
+            return;
+        }
+        cells.get(y).set( x, CellType);
+        System.out.println("set the tile");
+    }
+
     private void setObstaclesInLine(Point top, CellType CellType) {
         if(Math.random() < 0.5) {
-            cells.get((int) top.getY()).set((int) top.getX(), CellType);
-            cells.get((int) top.getY()).set((int) top.getX() + 1, CellType);
-            cells.get((int) top.getY()).set((int) top.getX() + 2, CellType);
-            cells.get((int) top.getY()).set((int) top.getX() + 3, CellType);
-            cells.get((int) top.getY()).set((int) top.getX() + 4, CellType);
+            setTile((int) top.getX(), (int) top.getY(), CellType);
+            setTile((int) top.getX(), (int) top.getY() + 1, CellType);
+            setTile((int) top.getX(), (int) top.getY() + 2, CellType);
+            setTile((int) top.getX(), (int) top.getY() + 3, CellType);
+            setTile((int) top.getX(), (int) top.getY() + 4, CellType);
+            // cells.get((int) top.getY()).set((int) top.getX(), CellType);
+            // cells.get((int) top.getY()).set((int) top.getX() + 1, CellType);
+            // cells.get((int) top.getY()).set((int) top.getX() + 2, CellType);
+            // cells.get((int) top.getY()).set((int) top.getX() + 3, CellType);
+            // cells.get((int) top.getY()).set((int) top.getX() + 4, CellType);
         } else {
-            cells.get((int) top.getY()).set((int) top.getX(), CellType);
-            cells.get((int) top.getY() + 1).set((int) top.getX(), CellType);
-            cells.get((int) top.getY() + 2).set((int) top.getX(), CellType);
-            cells.get((int) top.getY() + 3).set((int) top.getX(), CellType);
-            cells.get((int) top.getY() + 4).set((int) top.getX(), CellType);
+            setTile((int) top.getX(), (int) top.getY(), CellType);
+            setTile((int) top.getX() + 1, (int) top.getY(), CellType);
+            setTile((int) top.getX() + 2, (int) top.getY(), CellType);
+            setTile((int) top.getX() + 3, (int) top.getY(), CellType);
+            setTile((int) top.getX() + 4, (int) top.getY(), CellType);
+            // cells.get((int) top.getY()).set((int) top.getX(), CellType);
+            // cells.get((int) top.getY() + 1).set((int) top.getX(), CellType);
+            // cells.get((int) top.getY() + 2).set((int) top.getX(), CellType);
+            // cells.get((int) top.getY() + 3).set((int) top.getX(), CellType);
+            // cells.get((int) top.getY() + 4).set((int) top.getX(), CellType);
         }
     }
     
     private void setTrees(Point top) {
         if(Math.random() < 0.5) {
-            cells.get((int) top.getY()).set((int) top.getX(), CellType.TREE);
-            cells.get((int) top.getY()).set((int) top.getX() - 1, CellType.TREE);
-            cells.get((int) top.getY()).set((int) top.getX() + 2, CellType.TREE);
-            cells.get((int) top.getY() - 1).set((int) top.getX() + 3, CellType.TREE);
-            cells.get((int) top.getY() + 3).set((int) top.getX() - 4, CellType.TREE);
-            cells.get((int) top.getY() - 5).set((int) top.getX() + 4, CellType.TREE);
-            cells.get((int) top.getY() + 2).set((int) top.getX() - 2, CellType.TREE);
-            cells.get((int) top.getY() + 4).set((int) top.getX(), CellType.TREE);
-            cells.get((int) top.getY() - 3).set((int) top.getX(), CellType.TREE);
-            cells.get((int) top.getY() - 1).set((int) top.getX(), CellType.TREE);
+            // cells.get((int) top.getY()).set((int) top.getX(), CellType.TREE);
+            // cells.get((int) top.getY()).set((int) top.getX() - 1, CellType.TREE);
+            // cells.get((int) top.getY()).set((int) top.getX() + 2, CellType.TREE);
+            // cells.get((int) top.getY() - 1).set((int) top.getX() + 3, CellType.TREE);
+            // cells.get((int) top.getY() + 3).set((int) top.getX() - 4, CellType.TREE);
+            // cells.get((int) top.getY() - 5).set((int) top.getX() + 4, CellType.TREE);
+            // cells.get((int) top.getY() + 2).set((int) top.getX() - 2, CellType.TREE);
+            // cells.get((int) top.getY() + 4).set((int) top.getX(), CellType.TREE);
+            // cells.get((int) top.getY() - 3).set((int) top.getX(), CellType.TREE);
+            // cells.get((int) top.getY() - 1).set((int) top.getX(), CellType.TREE);
+            setTile((int) top.getX(), (int) top.getY(), CellType.TREE);
+            setTile((int) top.getX() - 1, (int) top.getY(), CellType.TREE);
+            setTile((int) top.getX() + 2, (int) top.getY(), CellType.TREE);
+            setTile((int) top.getX() + 3, (int) top.getY() - 1, CellType.TREE);
+            setTile((int) top.getX() - 4, (int) top.getY() + 3, CellType.TREE);
+            setTile((int) top.getX() + 4, (int) top.getY() - 5, CellType.TREE);
+            setTile((int) top.getX() - 2, (int) top.getY() + 2, CellType.TREE);
+            setTile((int) top.getX(), (int) top.getY() + 4, CellType.TREE);
+            setTile((int) top.getX(), (int) top.getY() - 3, CellType.TREE);
+            setTile((int) top.getX(), (int) top.getY() - 1, CellType.TREE);
+            
         } else {
-            cells.get((int) top.getY()).set((int) top.getX(), CellType.TREE);
-            cells.get((int) top.getY()).set((int) top.getX() - 2, CellType.TREE);
-            cells.get((int) top.getY()).set((int) top.getX() + 4, CellType.TREE);
-            cells.get((int) top.getY() - 1).set((int) top.getX() + 1, CellType.TREE);
-            cells.get((int) top.getY() + 2).set((int) top.getX() - 1, CellType.TREE);
-            cells.get((int) top.getY() - 3).set((int) top.getX() + 5, CellType.TREE);
-            cells.get((int) top.getY() + 3).set((int) top.getX() - 1, CellType.TREE);
-            cells.get((int) top.getY() + 1).set((int) top.getX() + 4, CellType.TREE);
-            cells.get((int) top.getY() - 4).set((int) top.getX(), CellType.TREE);
-            cells.get((int) top.getY() - 5).set((int) top.getX(), CellType.TREE);
+            // cells.get((int) top.getY()).set((int) top.getX(), CellType.TREE);
+            // cells.get((int) top.getY()).set((int) top.getX() - 2, CellType.TREE);
+            // cells.get((int) top.getY()).set((int) top.getX() + 4, CellType.TREE);
+            // cells.get((int) top.getY() - 1).set((int) top.getX() + 1, CellType.TREE);
+            // cells.get((int) top.getY() + 2).set((int) top.getX() - 1, CellType.TREE);
+            // cells.get((int) top.getY() - 3).set((int) top.getX() + 5, CellType.TREE);
+            // cells.get((int) top.getY() + 3).set((int) top.getX() - 1, CellType.TREE);
+            // cells.get((int) top.getY() + 1).set((int) top.getX() + 4, CellType.TREE);
+            // cells.get((int) top.getY() - 4).set((int) top.getX(), CellType.TREE);
+            // cells.get((int) top.getY() - 5).set((int) top.getX(), CellType.TREE);
+            setTile((int) top.getX(), (int) top.getY(), CellType.TREE);
+            setTile((int) top.getX() - 2, (int) top.getY(), CellType.TREE);
+            setTile((int) top.getX() + 4, (int) top.getY(), CellType.TREE);
+            setTile((int) top.getX() + 1, (int) top.getY() - 1, CellType.TREE);
+            setTile((int) top.getX() - 1, (int) top.getY() + 2, CellType.TREE);
+            setTile((int) top.getX() - 3, (int) top.getY() + 5, CellType.TREE);
+            setTile((int) top.getX() - 1, (int) top.getY() + 3, CellType.TREE);
+            setTile((int) top.getX() + 4, (int) top.getY() + 1, CellType.TREE);
+            setTile((int) top.getX(), (int) top.getY() - 4, CellType.TREE);
+            setTile((int) top.getX(), (int) top.getY() - 5, CellType.TREE);
         }
     }
 
