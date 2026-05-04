@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import FlowerPower.ui.MainApp;
 import edu.macalester.graphics.GraphicsGroup;
+import edu.macalester.graphics.Image;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
 
@@ -13,6 +14,7 @@ public class Explorer {
     private static final int GEM_POINTS = 100;
 
     public GraphicsGroup icon;
+    private Image iconImage;
     private Gameboard gameboard;
     private double speed;
     private double movementTimer;
@@ -25,13 +27,15 @@ public class Explorer {
     public static int rowPos;
     public static int colPos;
 
+    private int animationState;
+
     private int x; // world map position
     private int y; // world map position
 
 
     public Explorer(GraphicsGroup icon, Gameboard gameboard) {
         this.icon = icon;          
-        this.gameboard = gameboard; 
+        this.gameboard = gameboard;
         this.speed = 5.0;
         this.movementTimer = this.speed;
         this.x = 0;
@@ -44,10 +48,13 @@ public class Explorer {
         this.gemsCollected = 0;
         this.mushroomsCollected = 0;
 
-        //icon
-        Rectangle explorerIcon = new Rectangle(0, 0, (int) MainApp.TILE_SIZE, (int) MainApp.TILE_SIZE);
-        explorerIcon.setFillColor(Color.WHITE);
-        icon.add(explorerIcon);
+        // icon
+        iconImage = new Image(0, 0);
+
+        this.animationState = 0;
+        updateAnimationFrame();
+
+        icon.add(iconImage);
     }
 
     /**
@@ -66,7 +73,10 @@ public class Explorer {
             movementTimer = speed;
             if (!isBlocked(x, y - 1)) {
                 y--;
+                updateAnimationWalking();
                 handleCollectible(x, y);
+            } else {
+                updateAnimationBlocked();
             }
         }
         updateOnscreenPosition();
@@ -78,7 +88,10 @@ public class Explorer {
             movementTimer = speed;
             if (!isBlocked(x, y + 1)) {
                 y++;
+                updateAnimationWalking();
                 handleCollectible(x, y);
+            } else {
+                updateAnimationBlocked();
             }
         }
         updateOnscreenPosition();
@@ -90,7 +103,10 @@ public class Explorer {
             movementTimer = speed;
             if (!isBlocked(x - 1, y)) {
                 x--;
+                updateAnimationWalking();
                 handleCollectible(x, y);
+            } else {
+                updateAnimationBlocked();
             }
         }
         updateOnscreenPosition();
@@ -102,7 +118,10 @@ public class Explorer {
             movementTimer = speed;
             if (!isBlocked(x + 1, y)) {
                 x++;
+                updateAnimationWalking();
                 handleCollectible(x, y);
+            } else {
+                updateAnimationBlocked();
             }
         }
         updateOnscreenPosition();
@@ -147,6 +166,30 @@ public class Explorer {
                 break;
             default:
                 break;
+        }
+    }
+
+    private void updateAnimationWalking() {
+        if (animationState == 1) {
+            animationState = 2;
+        } else {
+            animationState = 1;
+        }
+        updateAnimationFrame();
+    }
+
+    private void updateAnimationBlocked() {
+        animationState = 0;
+        updateAnimationFrame();
+    }
+
+    private void updateAnimationFrame() {
+        if (animationState == 0) {
+            iconImage.setImagePath("guy.png");
+        } else if (animationState == 1) {
+            iconImage.setImagePath("guyL.png");
+        } else if (animationState == 2) {
+            iconImage.setImagePath("guyR.png");
         }
     }
 
