@@ -40,42 +40,47 @@ public class Scoreboard extends GraphicsGroup{
     }
 
     private void setup(){
-        window = new Rectangle(0, 0, 215, 215);
+        window = new Rectangle(0, 0, 215, 245);
         window.setFillColor(Color.LIGHT_GRAY);
         this.add(window);
 
+        Image title = new Image("gameName.png");
+        title.setPosition(10, 10);
+        title.setMaxWidth(180);
+        this.add(title);
+
         //======================
         Image line2 = new Image("line.png");
-        line2.setPosition(15, 130);
+        line2.setPosition(15, 160);
         line2.setMaxWidth(180);
         this.add(line2);
 
         Image buttonLabel = new Image("mapTo.png");
-        buttonLabel.setPosition(10, 140);
+        buttonLabel.setPosition(10, 170);
         buttonLabel.setMaxHeight(10);
         this.add(buttonLabel);
 
         flowerButton = new Image("flower.png");
-        flowerButton.setPosition(20, 160);
+        flowerButton.setPosition(20, 190);
         this.add(flowerButton);
         Image flowerButtonLabel = new Image("flowerName.png");
-        flowerButtonLabel.setPosition(20-5, 200);
+        flowerButtonLabel.setPosition(20-5, 230);
         flowerButtonLabel.setMaxHeight(10);
         this.add(flowerButtonLabel);
         
         mushButton = new Image( "mushroom1.png");
-        mushButton.setPosition(90, 160);
+        mushButton.setPosition(90, 160+ 30);
         this.add(mushButton);
         Image mushButtonLabel = new Image("mushName.png");
-        mushButtonLabel.setPosition(90-16, 200);
+        mushButtonLabel.setPosition(90-16, 230);
         mushButtonLabel.setMaxHeight(10);
         this.add(mushButtonLabel);
 
         gemButton = new Image("gem-export.png");
-        gemButton.setPosition(160, 160);
+        gemButton.setPosition(160, 160+ 30);
         this.add(gemButton);
         Image gemButtonLabel = new Image("gemName.png");
-        gemButtonLabel.setPosition(164, 202);
+        gemButtonLabel.setPosition(164, 232);
         gemButtonLabel.setMaxHeight(7.5);
         this.add(gemButtonLabel);
 
@@ -85,15 +90,15 @@ public class Scoreboard extends GraphicsGroup{
         // Coordinates
         Image coordsLabel = new Image("coordsLabel.png");
         coordsLabel.setMaxHeight(10);
-        coordsLabel.setPosition(10, 15);
+        coordsLabel.setPosition(10, 45);
         coords = new GraphicsGroup();
         coords = coordBuilder("0", "0");
-        coords.setPosition(130, 15);
+        coords.setPosition(130, 15+ 30);
         this.add(coords);
         this.add(coordsLabel);
 
         Image line1 = new Image("line.png");
-        line1.setPosition(15, 37);
+        line1.setPosition(15, 67);
         line1.setMaxWidth(180);
         this.add(line1);
 
@@ -101,10 +106,10 @@ public class Scoreboard extends GraphicsGroup{
         flowerNum = 0;
         Image flowerLabel = new Image("flowerLabel.png");
         flowerLabel.setMaxHeight(10);
-        flowerLabel.setPosition(10, 50);
+        flowerLabel.setPosition(10, 80);
         flowerScore = new GraphicsGroup();
         flowerScore = setNumber("0");
-        flowerScore.setPosition(180, 50);
+        flowerScore.setPosition(180, 80);
         this.add(flowerScore);
         this.add(flowerLabel);
 
@@ -112,10 +117,10 @@ public class Scoreboard extends GraphicsGroup{
         mushNum = 0;
         Image mushLabel = new Image("mushLabel.png");
         mushLabel.setMaxHeight(10);
-        mushLabel.setPosition(10,70);
+        mushLabel.setPosition(10,100);
         mushScore = new GraphicsGroup();
         mushScore = setNumber("0");
-        mushScore.setPosition(180, 70);
+        mushScore.setPosition(180, 70+ 30);
         this.add(mushScore);
         this.add(mushLabel);
 
@@ -123,10 +128,10 @@ public class Scoreboard extends GraphicsGroup{
         gemNum = 0;
         Image gemLabel = new Image("gemLabel.png");
         gemLabel.setMaxHeight(10);
-        gemLabel.setPosition(10, 90);
+        gemLabel.setPosition(10, 120);
         gemScore = new GraphicsGroup();
         gemScore = setNumber("0");
-        gemScore.setPosition(180, 90);
+        gemScore.setPosition(180, 120);
         this.add(gemScore);
         this.add(gemLabel);
         
@@ -134,10 +139,10 @@ public class Scoreboard extends GraphicsGroup{
         score = 0;
         Image totalLabel = new Image("totalScore.png");
         totalLabel.setMaxHeight(10);
-        totalLabel.setPosition(10, 110);
+        totalLabel.setPosition(10, 140);
         totalScore = new GraphicsGroup();
         totalScore = setNumber("0");
-        totalScore.setPosition(150, 110);
+        totalScore.setPosition(150, 140);
         this.add(totalScore);
         this.add(totalLabel);
         //======================
@@ -202,7 +207,7 @@ public class Scoreboard extends GraphicsGroup{
         if (mushNum != Explorer.mushroomsCollected){
             this.remove(mushScore);
             mushScore = setNumber(String.valueOf(Explorer.mushroomsCollected));
-            mushScore.setPosition(180,55);
+            mushScore.setPosition(180, 100);
             mushNum = Explorer.mushroomsCollected;
             this.add(mushScore);
         }
@@ -210,7 +215,7 @@ public class Scoreboard extends GraphicsGroup{
         if (flowerNum != Explorer.flowersCollected){
             this.remove(flowerScore);
             flowerScore = setNumber(String.valueOf(Explorer.flowersCollected));
-            flowerScore.setPosition(180,35);
+            flowerScore.setPosition(180,80);
             flowerNum = Explorer.flowersCollected;
             this.add(flowerScore);
         }
@@ -218,7 +223,7 @@ public class Scoreboard extends GraphicsGroup{
         if (gemNum != Explorer.gemsCollected){
             this.remove(gemScore);
             gemScore = setNumber(String.valueOf(Explorer.gemsCollected));
-            gemScore.setPosition(180,75);
+            gemScore.setPosition(180,120);
             gemNum = Explorer.gemsCollected;
             this.add(gemScore);
         }
@@ -226,14 +231,14 @@ public class Scoreboard extends GraphicsGroup{
         if (score != Explorer.totalScore){
             this.remove(totalScore);
             totalScore = setNumber(String.valueOf(Explorer.totalScore));
-            totalScore.setPosition(160,105);
+            totalScore.setPosition(160,140);
             score = Explorer.totalScore;
             this.add(totalScore);
         }
 
         this.remove(coords);
         coords = coordBuilder(String.valueOf(Explorer.colPos), String.valueOf(Explorer.rowPos));
-        coords.setPosition(130, 15);
+        coords.setPosition(130, 45);
         this.add(coords);
     }
 
