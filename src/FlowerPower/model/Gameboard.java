@@ -383,22 +383,57 @@ public class Gameboard {
         aStar astar = new aStar(g);
         List<Integer> path = astar.path(toIndex(startX, startY), toIndex(goalX, goalY));
 
-        for (int idx : path) {
-            int[] coords = toCoords(idx);
+        for (int i = 1; i < path.size() - 1; i++) {
+            int[] coords = toCoords(i);
+            int x = coords[0];
+            int y = coords[1];
             // however we are visually displaying the path
             // ex:
-            clearCellAt(coords[0], coords[1]);
-            Rectangle cell = new Rectangle(coords[0]*cellLen, coords[1]*cellWid, cellWid, cellLen);
-            cell.setFillColor(Color.BLUE); // cell type of path
-            board.put(new Point(coords[0], coords[1]), cell);
+            //markCellAt(coords[0], coords[1]);
+            if (board.get(new Point(x, y)) != null) {
+                canvas.remove(board.get(new Point(x, y)));
+                board.remove(new Point(x, y));
+            }
+
+            cells.get(y).set(x, CellType.PATH);
+
+            Point screenPos = getOnscreenPosition(x, y);
+            Image cell = new Image(x*cellLen, y*cellWid);
+            cell.setImagePath(cellDisplayColors.get(CellType.WALL));
+            cell.setPosition(screenPos.getX(), screenPos.getY());
+            board.put(new Point(x, y), cell);
             canvas.add(cell);
+
+            cells.get(y).set(x, CellType.WALL);
         }
+        
     }
 
-    public int[] findClosest(String name){
-        int[] coord = new int[2];
+    public int[] findClosest(String name, double fromX, double fromY) {
+        CellType target;
+        switch (name) {
+            case "flower":   target = CellType.FLOWER;   break;
+            case "mushroom": target = CellType.MUSHROOM; break;
+            case "gem":      target = CellType.GEM;      break;
+            default: return null;
+        }
 
-        return coord;
+        int[] closest = null;
+        double bestDist = Double.MAX_VALUE;
+
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                if (cells.get(r).get(c) == target) {
+                    double dist = Math.sqrt(Math.pow(c - fromX, 2) + Math.pow(r - fromY, 2));
+                    if (dist < bestDist) {
+                        bestDist = dist;
+                        closest = new int[]{c, r};
+                    }
+                }
+            }
+        }
+
+        return closest;
     }
 
 }

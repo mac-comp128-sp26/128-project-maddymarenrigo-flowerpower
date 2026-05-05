@@ -54,6 +54,10 @@ public class Explorer {
         this.mushroomsCollected = 0;
 
         // icon
+        characterSetup();
+    }
+
+    public void characterSetup(){
         iconImage = new Image(0, 0);
 
         this.animationState = 0;
@@ -163,10 +167,10 @@ public class Explorer {
      */
     private boolean isBlocked(int x, int y) {
         CellType cell = gameboard.getCellAt(x, y);
-        return cell == CellType.WALL
-            || cell == CellType.BUSH
+        return cell == CellType.BUSH
             || cell == CellType.TREE
             || cell == CellType.ROCK;
+            //cell == CellType.WALL|| 
     }
 
     private void handleCollectible(int x, int y) {

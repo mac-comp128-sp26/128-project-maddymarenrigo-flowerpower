@@ -153,18 +153,18 @@ public class Scoreboard extends GraphicsGroup{
             double x = event.getPosition().getX();
             double y = event.getPosition().getY();
 
-            if (flowerButton.testHitInLocalCoordinates(x, y)) {
-                int [] closest = board.findClosest("flower");
+            if (this.getElementAt(x, y) == flowerButton) {
+                int[] closest = board.findClosest("flower", Explorer.colPos, Explorer.rowPos);
                 board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1]);
-            } 
+            }
 
-            if (mushButton.testHitInLocalCoordinates(x, y)) {
-                int [] closest = board.findClosest("mush");
+            if (this.getElementAt(x, y) == mushButton) {
+                int[] closest = board.findClosest("mushroom", Explorer.colPos, Explorer.rowPos);
                 board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1]);
-            } 
+            }
 
-            if (gemButton.testHitInLocalCoordinates(x, y)) {
-                int [] closest = board.findClosest("gem");
+            if (this.getElementAt(x, y) == gemButton) {
+                int[] closest = board.findClosest("gem", Explorer.colPos, Explorer.rowPos);
                 board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1]);
             }
         });
@@ -176,19 +176,19 @@ public class Scoreboard extends GraphicsGroup{
             double x = event.getPosition().getX();
             double y = event.getPosition().getY();
 
-            if (flowerButton.testHitInLocalCoordinates(x, y)) {
+            if (this.getElementAt(x, y) == flowerButton) {
                 flowerButton.setScale(1.25);
             } else {
                 flowerButton.setScale(1);
             }
 
-            if (mushButton.testHitInLocalCoordinates(x, y)) {
+            if (this.getElementAt(x, y) == mushButton) {
                 mushButton.setScale(1.25);
             } else {
                 mushButton.setScale(1);
             }
 
-            if (gemButton.testHitInLocalCoordinates(x, y)) {
+            if (this.getElementAt(x, y) == gemButton) {
                 gemButton.setScale(1.25);
             } else {
                 gemButton.setScale(1);
