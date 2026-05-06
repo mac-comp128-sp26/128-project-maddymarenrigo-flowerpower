@@ -385,7 +385,7 @@ public class Gameboard {
         List<Integer> path = astar.path(toIndex(startX, startY), toIndex(goalX, goalY));
 
         for (int i = 1; i < path.size() - 1; i++) {
-            int[] coords = toCoords(i);
+            int[] coords = toCoords(path.get(i));
             int x = coords[0];
             int y = coords[1];
             // however we are visually displaying the path
