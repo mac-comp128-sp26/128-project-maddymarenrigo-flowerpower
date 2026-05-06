@@ -62,6 +62,7 @@ public class Gameboard {
         cellDisplayColors.put(CellType.FLOWER, "flower.png"); // Color(255, 0, 212)
         cellDisplayColors.put(CellType.GEM, "gem-export.png"); // Color(0, 102, 255)
         cellDisplayColors.put(CellType.MUSHROOM, "mushroom1.png"); // Color(181, 139, 98)
+        cellDisplayColors.put(CellType.PATH, "path.png");
 
 
         this.row = row;
