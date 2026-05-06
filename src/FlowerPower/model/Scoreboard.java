@@ -52,7 +52,7 @@ public class Scoreboard extends GraphicsGroup{
 
     private void setup(){
         window = new Rectangle(0, 0, 215, 300);
-        window.setFillColor(Color.LIGHT_GRAY);
+        window.setFillColor(new Color(175, 175, 175));
         this.add(window);
 
         Image title = new Image("gameName.png");
@@ -216,8 +216,10 @@ public class Scoreboard extends GraphicsGroup{
                     flowerPath();
                 } else if (pathTo == CellType.MUSHROOM){
                     mushroomPath();
-                } else {
+                } else if (pathTo == CellType.GEM){
                     gemPath();
+                } else {
+                    board.showPath(Explorer.colPos, Explorer.rowPos, 0, 0, PathMode.NONE);
                 }
             }
         });
