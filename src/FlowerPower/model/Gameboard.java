@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import FlowerPower.model.Datatypes.Dijkstra;
 import FlowerPower.model.Datatypes.Graph;
 import FlowerPower.model.Datatypes.SpacedRandom;
 import FlowerPower.model.Datatypes.aStar;
@@ -43,6 +44,10 @@ public class Gameboard {
 
     private List<Integer> path;
 
+    // saved obstacles and collectibles
+    private List<Point> obstaclRandomPoints;
+    private List<Point> randomPoints;
+
     public Gameboard(int row, int col, CanvasWindow canvas, GraphicsGroup worldLayer) {
         board = new HashMap<>();
         cells = new ArrayList<>();
@@ -77,6 +82,8 @@ public class Gameboard {
 
         this.canvas = canvas;
         this.worldLayer = worldLayer;
+        this.obstaclRandomPoints = new ArrayList<>();
+        this.randomPoints = new ArrayList<>();
 
         cameraPosition = new Point(0, 0);
 
@@ -145,7 +152,7 @@ public class Gameboard {
 
     //update cells
     public void generateBoard() {
-        List<Point> obstaclRandomPoints = SpacedRandom.roundPoints(SpacedRandom.yieldPoints(90, 20, 256));
+        obstaclRandomPoints = SpacedRandom.roundPoints(SpacedRandom.yieldPoints(90, 20, 256));
         for(int i = 0; i < 90; i++) {
             Point top = obstaclRandomPoints.get(i);
             if(i < 30) {
@@ -156,7 +163,7 @@ public class Gameboard {
                 setObstaclesInLine(top, CellType.ROCK);
             }
         }
-        List<Point> randomPoints = SpacedRandom.roundPoints(SpacedRandom.yieldPoints(24, 20, 256));
+        randomPoints = SpacedRandom.roundPoints(SpacedRandom.yieldPoints(24, 20, 256));
         for(int i = 0; i < 24; i++) {
             Point topPoint = randomPoints.get(i);
             if(i < 10) {
@@ -358,7 +365,7 @@ public class Gameboard {
      * Shows up the path to the collecitble
      * 
      */
-    public void showPath(int startX, int startY, int goalX, int goalY, String name) {
+    public void showPath(int startX, int startY, int goalX, int goalY, PathMode name) {
         if (!path.isEmpty()){
             for (int i = 1; i < path.size() - 1; i++) {
                 int[] coords = toCoords(path.get(i));
@@ -371,14 +378,26 @@ public class Gameboard {
         }
 
         Graph g = buildGraph();
-        if (name.equals("astar")){
+
+        // mode
+        if (name == PathMode.ASTAR){
             aStar astar = new aStar(g);
             path = astar.path(toIndex(startX, startY), toIndex(goalX, goalY));
+        } else if (name == PathMode.DJ) {
+            Dijkstra dj = new Dijkstra(g);
+            path = dj.dijkstra(g, toIndex(goalX, goalY));
         } else {
-
+            for (int i = 1; i < path.size() - 1; i++) {
+                int[] coords = toCoords(path.get(i));
+                int x = coords[0];
+                int y = coords[1];
+                
+                clearCellAt(x, y);
+            }
+            path.clear();
         }
-        aStar astar = new aStar(g);
-        path = astar.path(toIndex(startX, startY), toIndex(goalX, goalY));
+        // aStar astar = new aStar(g);
+        // path = astar.path(toIndex(startX, startY), toIndex(goalX, goalY));
 
         for (int i = 1; i < path.size() - 1; i++) {
             int[] coords = toCoords(path.get(i));
@@ -404,14 +423,14 @@ public class Gameboard {
         
     }
 
-    public int[] findClosest(String name, double fromX, double fromY) {
-        CellType target;
-        switch (name) {
-            case "flower":   target = CellType.FLOWER;   break;
-            case "mushroom": target = CellType.MUSHROOM; break;
-            case "gem":      target = CellType.GEM;      break;
-            default: return null;
-        }
+    public int[] findClosest(CellType target, double fromX, double fromY) {
+        // CellType target;
+        // switch (name) {
+        //     case "flower":   target = CellType.FLOWER;   break;
+        //     case "mushroom": target = CellType.MUSHROOM; break;
+        //     case "gem":      target = CellType.GEM;      break;
+        //     default: return null;
+        // }
 
         int[] closest = null;
         double bestDist = Double.MAX_VALUE;

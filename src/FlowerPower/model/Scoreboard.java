@@ -2,6 +2,7 @@ package FlowerPower.model;
 
 import java.awt.Color;
 
+import FlowerPower.model.Datatypes.Dijkstra;
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.GraphicsText;
@@ -31,16 +32,26 @@ public class Scoreboard extends GraphicsGroup{
     public Image mushButton;
     public Image flowerButton;
     public Image gemButton;
+    public Image astarButton;
+    public Image djButton;
+    public Image toggleButton;
+
+    private PathMode mode;
+    private CellType pathTo;
 
     public Scoreboard(CanvasWindow canvas, Gameboard board){
         this.canvas = canvas;
         this.board = board;
+
+        mode = PathMode.ASTAR;
+        pathTo = CellType.EMPTY;
+
         setup();
         clickEvents();
     }
 
     private void setup(){
-        window = new Rectangle(0, 0, 215, 245);
+        window = new Rectangle(0, 0, 215, 300);
         window.setFillColor(Color.LIGHT_GRAY);
         this.add(window);
 
@@ -48,43 +59,6 @@ public class Scoreboard extends GraphicsGroup{
         title.setPosition(10, 10);
         title.setMaxWidth(180);
         this.add(title);
-
-        //======================
-        Image line2 = new Image("line.png");
-        line2.setPosition(15, 160);
-        line2.setMaxWidth(180);
-        this.add(line2);
-
-        Image buttonLabel = new Image("mapTo.png");
-        buttonLabel.setPosition(10, 170);
-        buttonLabel.setMaxHeight(10);
-        this.add(buttonLabel);
-
-        flowerButton = new Image("flower.png");
-        flowerButton.setPosition(20, 190);
-        this.add(flowerButton);
-        Image flowerButtonLabel = new Image("flowerName.png");
-        flowerButtonLabel.setPosition(20-5, 230);
-        flowerButtonLabel.setMaxHeight(10);
-        this.add(flowerButtonLabel);
-        
-        mushButton = new Image( "mushroom1.png");
-        mushButton.setPosition(90, 160+ 30);
-        this.add(mushButton);
-        Image mushButtonLabel = new Image("mushName.png");
-        mushButtonLabel.setPosition(90-16, 230);
-        mushButtonLabel.setMaxHeight(10);
-        this.add(mushButtonLabel);
-
-        gemButton = new Image("gem-export.png");
-        gemButton.setPosition(160, 160+ 30);
-        this.add(gemButton);
-        Image gemButtonLabel = new Image("gemName.png");
-        gemButtonLabel.setPosition(164, 232);
-        gemButtonLabel.setMaxHeight(7.5);
-        this.add(gemButtonLabel);
-
-        //======================
 
         //======================
         // Coordinates
@@ -145,6 +119,68 @@ public class Scoreboard extends GraphicsGroup{
         totalScore.setPosition(150, 140);
         this.add(totalScore);
         this.add(totalLabel);
+
+        //======================
+
+        Image line2 = new Image("line.png");
+        line2.setPosition(15, 160);
+        line2.setMaxWidth(180);
+        this.add(line2);
+
+        Image buttonLabel = new Image("mapTo.png");
+        buttonLabel.setPosition(10, 170);
+        buttonLabel.setMaxHeight(10);
+        this.add(buttonLabel);
+
+        flowerButton = new Image("flower.png");
+        flowerButton.setPosition(20, 190);
+        this.add(flowerButton);
+        Image flowerButtonLabel = new Image("flowerName.png");
+        flowerButtonLabel.setPosition(20-5, 230);
+        flowerButtonLabel.setMaxHeight(10);
+        this.add(flowerButtonLabel);
+        
+        mushButton = new Image( "mushroom1.png");
+        mushButton.setPosition(90, 160+ 30);
+        this.add(mushButton);
+        Image mushButtonLabel = new Image("mushName.png");
+        mushButtonLabel.setPosition(90-16, 230);
+        mushButtonLabel.setMaxHeight(10);
+        this.add(mushButtonLabel);
+
+        gemButton = new Image("gem-export.png");
+        gemButton.setPosition(160, 160+ 30);
+        this.add(gemButton);
+        Image gemButtonLabel = new Image("gemName.png");
+        gemButtonLabel.setPosition(164, 232);
+        gemButtonLabel.setMaxHeight(7.5);
+        this.add(gemButtonLabel);
+
+        //======================
+
+        Image line3 = new Image("line.png");
+        line3.setPosition(15, 250);
+        line3.setMaxWidth(180);
+        this.add(line3);
+
+        djButton = new Image("Dijkstra.png");
+        djButton.setMaxHeight(75);
+        djButton.setPosition(djButton.getWidth(), 258);
+        this.add(djButton);
+
+
+        toggleButton = new Image("toggle.png");
+        toggleButton.setMaxWidth(50);
+        toggleButton.rotateBy(180);
+        double tXPos = 107.5 - 25;
+        toggleButton.setPosition(tXPos, 260);
+        this.add(toggleButton);
+
+        astarButton = new Image("aStar.png");
+        djButton.setMaxHeight(75);
+        astarButton.setPosition(215 - astarButton.getWidth()*2, 258);
+        this.add(astarButton);
+
         //======================
         
         updateBoard();
@@ -158,27 +194,34 @@ public class Scoreboard extends GraphicsGroup{
             double x = event.getPosition().getX();
             double y = event.getPosition().getY();
 
+            // Sets path to respected collectible
             if (this.getElementAt(x, y) == flowerButton) {
-                int[] closest = board.findClosest("flower", Explorer.colPos, Explorer.rowPos);
-                
-                board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1], "astar");
-                System.out.println("flower path");
-            }
+                flowerPath();
+                //System.out.println("flower path");
+            } else if (this.getElementAt(x, y) == mushButton) {
+                mushroomPath();
+                //System.out.println("mush path");
+            } else if (this.getElementAt(x, y) == gemButton) {
+                gemPath();
+                //System.out.println("gem path");
+            } else if (this.getElementAt(x, y) == toggleButton) {
+                toggleButton.rotateBy(180);
+                if (mode == PathMode.DJ){
+                    mode = PathMode.ASTAR;
+                } else {
+                    mode = PathMode.DJ;
+                }
 
-            if (this.getElementAt(x, y) == mushButton) {
-                int[] closest = board.findClosest("mushroom", Explorer.colPos, Explorer.rowPos);
-                
-                board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1], "astar");
-                System.out.println("mush path");
-            }
-
-            if (this.getElementAt(x, y) == gemButton) {
-                int[] closest = board.findClosest("gem", Explorer.colPos, Explorer.rowPos);
-                
-                board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1], "astar");
-                System.out.println("gem path");
+                if (pathTo == CellType.FLOWER){
+                    flowerPath();
+                } else if (pathTo == CellType.MUSHROOM){
+                    mushroomPath();
+                } else {
+                    gemPath();
+                }
             }
         });
+
 
         /**
          * Hover effects
@@ -205,7 +248,31 @@ public class Scoreboard extends GraphicsGroup{
                 gemButton.setScale(1);
             }
 
+            if (this.getElementAt(x, y) == toggleButton) {
+                toggleButton.setScale(1.05);
+            } else {
+                toggleButton.setScale(1);
+            }
         });
+    }
+    
+    /**
+     * Click helpers
+     */
+    private void flowerPath(){
+        pathTo = CellType.FLOWER;
+        int[] closest = board.findClosest(pathTo, Explorer.colPos, Explorer.rowPos);
+        board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1], mode);
+    }
+    private void mushroomPath(){
+        pathTo = CellType.MUSHROOM;
+        int[] closest = board.findClosest(pathTo, Explorer.colPos, Explorer.rowPos);
+        board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1], mode);
+    }
+    private void gemPath(){
+        pathTo = CellType.GEM;
+        int[] closest = board.findClosest(pathTo, Explorer.colPos, Explorer.rowPos);
+        board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1], mode);
     }
 
     // updates visual text displayed on scoreboard
