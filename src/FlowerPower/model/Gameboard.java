@@ -400,12 +400,12 @@ public class Gameboard {
 
             Point screenPos = getOnscreenPosition(x, y);
             Image cell = new Image(x*cellLen, y*cellWid);
-            cell.setImagePath(cellDisplayColors.get(CellType.WALL));
+            cell.setImagePath(cellDisplayColors.get(CellType.PATH));
             cell.setPosition(screenPos.getX(), screenPos.getY());
             board.put(new Point(x, y), cell);
             canvas.add(cell);
 
-            cells.get(y).set(x, CellType.WALL);
+            cells.get(y).set(x, CellType.PATH);
         }
         
     }
