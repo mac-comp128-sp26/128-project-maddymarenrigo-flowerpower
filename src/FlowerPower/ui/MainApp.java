@@ -26,6 +26,10 @@ public class MainApp {
     private Color backgroundColor = new Color(34, 125, 73);
     Explorer explorer;
     Scoreboard scoreboard;
+
+    GraphicsGroup worldLayer = new GraphicsGroup();   // tiles + path
+    GraphicsGroup entityLayer = new GraphicsGroup();  // explorer
+    GraphicsGroup uiLayer = new GraphicsGroup();      // scoreboard
    
  
     private MainApp() {
@@ -33,7 +37,7 @@ public class MainApp {
         // add obstacles, explorer, collectables OR have Gameboard.java implement those and then just add a new Gameboard object
         canvas = new CanvasWindow("FlowerPower", (int) CANVAS_SIZE*5, (int) CANVAS_SIZE*5);
         canvas.setBackground(backgroundColor);
-        game = new Gameboard(256, 256, canvas); // 256 by 256 for full gameboard
+        game = new Gameboard(256, 256, canvas, worldLayer); // 256 by 256 for full gameboard
         explorer = new Explorer(new GraphicsGroup(), game);
         scoreboard = new Scoreboard(canvas, game);
         
@@ -77,10 +81,16 @@ public class MainApp {
         //adding to canvas
         game.generateBoard(); //(putting the stuff in the cells array)
         game.setup();
-        canvas.add(explorer.icon);
-        canvas.add(scoreboard);
+
+        entityLayer.add(explorer.icon);
+
+        uiLayer.add(scoreboard);
         scoreboard.setPosition(0, 0);
         
+        canvas.add(worldLayer); // board
+        canvas.add(entityLayer); // player
+        canvas.add(uiLayer); // scoreboard
+
         // explorer movement
         canvas.animate(this::oneFrame);
     }

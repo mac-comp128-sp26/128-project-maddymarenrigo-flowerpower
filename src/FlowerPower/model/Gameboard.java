@@ -11,6 +11,7 @@ import FlowerPower.model.Datatypes.Graph;
 import FlowerPower.model.Datatypes.SpacedRandom;
 import FlowerPower.model.Datatypes.aStar;
 import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.GraphicsObject;
 import edu.macalester.graphics.Point;
@@ -34,12 +35,15 @@ public class Gameboard {
 
     // canvas to draw onto
     private CanvasWindow canvas;
+    private GraphicsGroup worldLayer;
 
     // camera position
     private Point cameraPosition;
     private Point wishCameraPosition; // where the camera's easing to
 
-    public Gameboard(int row, int col, CanvasWindow canvas) {
+    private List<Integer> path;
+
+    public Gameboard(int row, int col, CanvasWindow canvas, GraphicsGroup worldLayer) {
         board = new HashMap<>();
         cells = new ArrayList<>();
         
@@ -72,8 +76,11 @@ public class Gameboard {
         cellWid = 32.0; // 32 x 32 pixels
 
         this.canvas = canvas;
+        this.worldLayer = worldLayer;
 
         cameraPosition = new Point(0, 0);
+
+        this.path = new ArrayList<>();
     }
 
     /**
@@ -84,14 +91,12 @@ public class Gameboard {
     }
 
     private void setTile(int x, int y, CellType CellType) {
-        //System.out.println("set tile reached");
         if(x < 0 || x > 256) {
             return;
         } else if(y < 0 || y > 256) {
             return;
         }
         cells.get(y).set( x, CellType);
-        //System.out.println("set the tile");
     }
 
     private void setObstaclesInLine(Point top, CellType CellType) {
@@ -101,37 +106,18 @@ public class Gameboard {
             setTile((int) top.getX(), (int) top.getY() + 2, CellType);
             setTile((int) top.getX(), (int) top.getY() + 3, CellType);
             setTile((int) top.getX(), (int) top.getY() + 4, CellType);
-            // cells.get((int) top.getY()).set((int) top.getX(), CellType);
-            // cells.get((int) top.getY()).set((int) top.getX() + 1, CellType);
-            // cells.get((int) top.getY()).set((int) top.getX() + 2, CellType);
-            // cells.get((int) top.getY()).set((int) top.getX() + 3, CellType);
-            // cells.get((int) top.getY()).set((int) top.getX() + 4, CellType);
+
         } else {
             setTile((int) top.getX(), (int) top.getY(), CellType);
             setTile((int) top.getX() + 1, (int) top.getY(), CellType);
             setTile((int) top.getX() + 2, (int) top.getY(), CellType);
             setTile((int) top.getX() + 3, (int) top.getY(), CellType);
             setTile((int) top.getX() + 4, (int) top.getY(), CellType);
-            // cells.get((int) top.getY()).set((int) top.getX(), CellType);
-            // cells.get((int) top.getY() + 1).set((int) top.getX(), CellType);
-            // cells.get((int) top.getY() + 2).set((int) top.getX(), CellType);
-            // cells.get((int) top.getY() + 3).set((int) top.getX(), CellType);
-            // cells.get((int) top.getY() + 4).set((int) top.getX(), CellType);
         }
     }
     
     private void setTrees(Point top) {
         if(Math.random() < 0.5) {
-            // cells.get((int) top.getY()).set((int) top.getX(), CellType.TREE);
-            // cells.get((int) top.getY()).set((int) top.getX() - 1, CellType.TREE);
-            // cells.get((int) top.getY()).set((int) top.getX() + 2, CellType.TREE);
-            // cells.get((int) top.getY() - 1).set((int) top.getX() + 3, CellType.TREE);
-            // cells.get((int) top.getY() + 3).set((int) top.getX() - 4, CellType.TREE);
-            // cells.get((int) top.getY() - 5).set((int) top.getX() + 4, CellType.TREE);
-            // cells.get((int) top.getY() + 2).set((int) top.getX() - 2, CellType.TREE);
-            // cells.get((int) top.getY() + 4).set((int) top.getX(), CellType.TREE);
-            // cells.get((int) top.getY() - 3).set((int) top.getX(), CellType.TREE);
-            // cells.get((int) top.getY() - 1).set((int) top.getX(), CellType.TREE);
             setTile((int) top.getX(), (int) top.getY(), CellType.TREE);
             setTile((int) top.getX() - 1, (int) top.getY(), CellType.TREE);
             setTile((int) top.getX() + 2, (int) top.getY(), CellType.TREE);
@@ -144,16 +130,6 @@ public class Gameboard {
             setTile((int) top.getX(), (int) top.getY() - 1, CellType.TREE);
             
         } else {
-            // cells.get((int) top.getY()).set((int) top.getX(), CellType.TREE);
-            // cells.get((int) top.getY()).set((int) top.getX() - 2, CellType.TREE);
-            // cells.get((int) top.getY()).set((int) top.getX() + 4, CellType.TREE);
-            // cells.get((int) top.getY() - 1).set((int) top.getX() + 1, CellType.TREE);
-            // cells.get((int) top.getY() + 2).set((int) top.getX() - 1, CellType.TREE);
-            // cells.get((int) top.getY() - 3).set((int) top.getX() + 5, CellType.TREE);
-            // cells.get((int) top.getY() + 3).set((int) top.getX() - 1, CellType.TREE);
-            // cells.get((int) top.getY() + 1).set((int) top.getX() + 4, CellType.TREE);
-            // cells.get((int) top.getY() - 4).set((int) top.getX(), CellType.TREE);
-            // cells.get((int) top.getY() - 5).set((int) top.getX(), CellType.TREE);
             setTile((int) top.getX(), (int) top.getY(), CellType.TREE);
             setTile((int) top.getX() - 2, (int) top.getY(), CellType.TREE);
             setTile((int) top.getX() + 4, (int) top.getY(), CellType.TREE);
@@ -175,7 +151,6 @@ public class Gameboard {
             if(i < 30) {
                 setObstaclesInLine(top, CellType.BUSH);
             } else if(i < 60) {
-                //setObstaclesInLine(top, CellType.TREE);
                 setTrees(top);
             } else {
                 setObstaclesInLine(top, CellType.ROCK);
@@ -204,7 +179,8 @@ public class Gameboard {
                     Image cell = new Image(c*cellLen, r*cellWid);
                     cell.setImagePath(cellDisplayColors.get(getCellAt(c, r)));
                     board.put(new Point(c, r), cell);
-                    canvas.add(cell);
+                    //canvas.add(cell);
+                    worldLayer.add(cell);
                 }
             }
         }
@@ -266,7 +242,8 @@ public class Gameboard {
         }
         cells.get(y).set(x, CellType.EMPTY);
         if (board.get(new Point(x, y)) != null) {
-            canvas.remove(board.get(new Point(x, y)));
+            //canvas.remove(board.get(new Point(x, y)));
+            worldLayer.remove(board.get(new Point(x, y)));
             board.remove(new Point(x, y));
         }
     }
@@ -282,12 +259,14 @@ public class Gameboard {
         }
         cells.get(y).set(x, CellType.PATH);
         if (board.get(new Point(x, y)) != null) {
-            canvas.remove(board.get(new Point(x, y)));
+            //canvas.remove(board.get(new Point(x, y)));
+            worldLayer.remove(board.get(new Point(x, y)));
             board.remove(new Point(x, y));
             Image cell = new Image(x*cellLen, y*cellWid);
             cell.setImagePath(cellDisplayColors.get(CellType.PATH));
             board.put(new Point(x, y), cell);
-            canvas.add(cell);
+            //canvas.add(cell);
+            worldLayer.add(cell);
         }
     }
 
@@ -379,10 +358,27 @@ public class Gameboard {
      * Shows up the path to the collecitble
      * 
      */
-    public void showPath(int startX, int startY, int goalX, int goalY) {
+    public void showPath(int startX, int startY, int goalX, int goalY, String name) {
+        if (!path.isEmpty()){
+            for (int i = 1; i < path.size() - 1; i++) {
+                int[] coords = toCoords(path.get(i));
+                int x = coords[0];
+                int y = coords[1];
+                
+                clearCellAt(x, y);
+            }
+            path.clear();
+        }
+
         Graph g = buildGraph();
+        if (name.equals("astar")){
+            aStar astar = new aStar(g);
+            path = astar.path(toIndex(startX, startY), toIndex(goalX, goalY));
+        } else {
+
+        }
         aStar astar = new aStar(g);
-        List<Integer> path = astar.path(toIndex(startX, startY), toIndex(goalX, goalY));
+        path = astar.path(toIndex(startX, startY), toIndex(goalX, goalY));
 
         for (int i = 1; i < path.size() - 1; i++) {
             int[] coords = toCoords(path.get(i));
@@ -391,10 +387,7 @@ public class Gameboard {
             // however we are visually displaying the path
             // ex:
             //markCellAt(coords[0], coords[1]);
-            if (board.get(new Point(x, y)) != null) {
-                canvas.remove(board.get(new Point(x, y)));
-                board.remove(new Point(x, y));
-            }
+            clearCellAt(x, y);
 
             cells.get(y).set(x, CellType.PATH);
 
@@ -403,7 +396,8 @@ public class Gameboard {
             cell.setImagePath(cellDisplayColors.get(CellType.PATH));
             cell.setPosition(screenPos.getX(), screenPos.getY());
             board.put(new Point(x, y), cell);
-            canvas.add(cell);
+            //canvas.add(cell);
+            worldLayer.add(cell);
 
             cells.get(y).set(x, CellType.PATH);
         }

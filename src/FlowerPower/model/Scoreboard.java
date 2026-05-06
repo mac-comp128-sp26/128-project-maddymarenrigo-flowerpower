@@ -161,21 +161,21 @@ public class Scoreboard extends GraphicsGroup{
             if (this.getElementAt(x, y) == flowerButton) {
                 int[] closest = board.findClosest("flower", Explorer.colPos, Explorer.rowPos);
                 
-                board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1]);
+                board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1], "astar");
                 System.out.println("flower path");
             }
 
             if (this.getElementAt(x, y) == mushButton) {
                 int[] closest = board.findClosest("mushroom", Explorer.colPos, Explorer.rowPos);
                 
-                board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1]);
+                board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1], "astar");
                 System.out.println("mush path");
             }
 
             if (this.getElementAt(x, y) == gemButton) {
                 int[] closest = board.findClosest("gem", Explorer.colPos, Explorer.rowPos);
                 
-                board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1]);
+                board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1], "astar");
                 System.out.println("gem path");
             }
         });
