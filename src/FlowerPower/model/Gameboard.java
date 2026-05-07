@@ -318,6 +318,11 @@ public class Gameboard {
     }
 
 
+    /**
+     * Returns a Graph object of the gameboard
+     * 
+     * @return a Graph of the gameboard
+     */
     public Graph buildGraph() {
         Graph g = new Graph(row * col);
 
@@ -347,15 +352,30 @@ public class Gameboard {
         return g;
     }
 
+    /**
+     * Returns true if the player can walk on top of that cell
+     * 
+     * @return a boolean
+     */
     private boolean isWalkable(CellType cell) {
         return cell == CellType.EMPTY || cell == CellType.FLOWER
             || cell == CellType.GEM   || cell == CellType.MUSHROOM;
     }
 
+    /**
+     * Returns an int for the node of the graph the corresponds to the (x,y) coordinates
+     * 
+     * @return an int representing a graph node index number 
+     */
     public int toIndex(int x, int y) {
         return y * col + x; 
     }
 
+    /**
+     * Returns an int [] of the graph's coordinates from a graph node index
+     * 
+     * @return an int[] representing a graph node in (x,y) format
+     */
     public int[] toCoords(int index) { 
         return new int[]{ index % col, index / col }; 
     }
@@ -379,13 +399,13 @@ public class Gameboard {
 
         Graph g = buildGraph();
 
-        // mode
+        // selects correct path mode
         if (name == PathMode.ASTAR){
             aStar astar = new aStar(g);
             path = astar.path(toIndex(startX, startY), toIndex(goalX, goalY));
         } else if (name == PathMode.DJ) {
             Dijkstra dj = new Dijkstra(g);
-            path = dj.dijkstra(g, toIndex(goalX, goalY));
+            path = dj.dijkstra(toIndex(startX, startY), toIndex(goalX, goalY));
         } else {
             for (int i = 1; i < path.size() - 1; i++) {
                 int[] coords = toCoords(path.get(i));
@@ -396,8 +416,6 @@ public class Gameboard {
             }
             path.clear();
         }
-        // aStar astar = new aStar(g);
-        // path = astar.path(toIndex(startX, startY), toIndex(goalX, goalY));
 
         for (int i = 1; i < path.size() - 1; i++) {
             int[] coords = toCoords(path.get(i));
