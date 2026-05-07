@@ -55,13 +55,14 @@ public class Scoreboard extends GraphicsGroup{
         window.setFillColor(new Color(175, 175, 175));
         this.add(window);
 
+        // title
         Image title = new Image("gameName.png");
         title.setPosition(10, 10);
         title.setMaxWidth(180);
         this.add(title);
 
         //======================
-        // Coordinates
+        // coordinates
         Image coordsLabel = new Image("coordsLabel.png");
         coordsLabel.setMaxHeight(10);
         coordsLabel.setPosition(10, 45);
@@ -76,7 +77,7 @@ public class Scoreboard extends GraphicsGroup{
         line1.setMaxWidth(180);
         this.add(line1);
 
-        // Flower score
+        // flower score
         flowerNum = 0;
         Image flowerLabel = new Image("flowerLabel.png");
         flowerLabel.setMaxHeight(10);
@@ -87,7 +88,7 @@ public class Scoreboard extends GraphicsGroup{
         this.add(flowerScore);
         this.add(flowerLabel);
 
-        // Mushroom score
+        // mushroom score
         mushNum = 0;
         Image mushLabel = new Image("mushLabel.png");
         mushLabel.setMaxHeight(10);
@@ -98,7 +99,7 @@ public class Scoreboard extends GraphicsGroup{
         this.add(mushScore);
         this.add(mushLabel);
 
-        // Gem score
+        // gem score
         gemNum = 0;
         Image gemLabel = new Image("gemLabel.png");
         gemLabel.setMaxHeight(10);
@@ -109,7 +110,7 @@ public class Scoreboard extends GraphicsGroup{
         this.add(gemScore);
         this.add(gemLabel);
         
-        // Total score
+        // total score
         score = 0;
         Image totalLabel = new Image("totalScore.png");
         totalLabel.setMaxHeight(10);
@@ -132,6 +133,7 @@ public class Scoreboard extends GraphicsGroup{
         buttonLabel.setMaxHeight(10);
         this.add(buttonLabel);
 
+        // flower button and label
         flowerButton = new Image("flower.png");
         flowerButton.setPosition(20, 190);
         this.add(flowerButton);
@@ -140,6 +142,7 @@ public class Scoreboard extends GraphicsGroup{
         flowerButtonLabel.setMaxHeight(10);
         this.add(flowerButtonLabel);
         
+        // mushroom button and label
         mushButton = new Image( "mushroom1.png");
         mushButton.setPosition(90, 160+ 30);
         this.add(mushButton);
@@ -148,6 +151,7 @@ public class Scoreboard extends GraphicsGroup{
         mushButtonLabel.setMaxHeight(10);
         this.add(mushButtonLabel);
 
+        // gem button and label
         gemButton = new Image("gem-export.png");
         gemButton.setPosition(160, 160+ 30);
         this.add(gemButton);
@@ -163,19 +167,21 @@ public class Scoreboard extends GraphicsGroup{
         line3.setMaxWidth(180);
         this.add(line3);
 
+        // dijkstra button
         djButton = new Image("Dijkstra.png");
         djButton.setMaxHeight(75);
         djButton.setPosition(djButton.getWidth(), 258);
         this.add(djButton);
 
 
+        // toggle button
         toggleButton = new Image("toggle.png");
         toggleButton.setMaxWidth(50);
-        toggleButton.rotateBy(180);
         double tXPos = 107.5 - 25;
         toggleButton.setPosition(tXPos, 260);
         this.add(toggleButton);
 
+        // A* button
         astarButton = new Image("aStar.png");
         djButton.setMaxHeight(75);
         astarButton.setPosition(215 - astarButton.getWidth()*2, 258);
