@@ -152,23 +152,23 @@ public class Gameboard {
 
     //update cells
     public void generateBoard() {
-        obstaclRandomPoints = SpacedRandom.roundPoints(SpacedRandom.yieldPoints(90, 20, 256));
-        for(int i = 0; i < 90; i++) {
+        obstaclRandomPoints = SpacedRandom.roundPoints(SpacedRandom.yieldPoints(150, 20, 256));
+        for(int i = 0; i < 150; i++) {
             Point top = obstaclRandomPoints.get(i);
-            if(i < 30) {
+            if(i < 50) {
                 setObstaclesInLine(top, CellType.BUSH);
-            } else if(i < 60) {
+            } else if(i < 100) {
                 setTrees(top);
             } else {
                 setObstaclesInLine(top, CellType.ROCK);
             }
         }
-        randomPoints = SpacedRandom.roundPoints(SpacedRandom.yieldPoints(24, 20, 256));
-        for(int i = 0; i < 24; i++) {
+        randomPoints = SpacedRandom.roundPoints(SpacedRandom.yieldPoints(45, 20, 256));
+        for(int i = 0; i < 45; i++) {
             Point topPoint = randomPoints.get(i);
-            if(i < 10) {
+            if(i < 25) {
                 cells.get((int) topPoint.getY()).set((int) topPoint.getX(), CellType.FLOWER);
-            } else if(i < 18) {
+            } else if(i < 40) {
                 cells.get((int) topPoint.getY()).set((int) topPoint.getX(), CellType.MUSHROOM);
             } else {
                 cells.get((int) topPoint.getY()).set((int) topPoint.getX(), CellType.GEM);
