@@ -1,6 +1,5 @@
 package FlowerPower.model.Datatypes;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -9,8 +8,6 @@ import java.util.PriorityQueue;
 
 public class aStar {
     // implements the A* algorithm
-
-    // need to update gameboard so that cell type is path not empty, etc
 
     private final Graph graph;
  

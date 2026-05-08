@@ -1,12 +1,8 @@
 package FlowerPower.model;
 
-import java.awt.Color;
-
-import FlowerPower.ui.MainApp;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.Image;
 import edu.macalester.graphics.Point;
-import edu.macalester.graphics.Rectangle;
 
 public class Explorer {
     private static final int FLOWER_POINTS = 10;
@@ -169,8 +165,8 @@ public class Explorer {
         CellType cell = gameboard.getCellAt(x, y);
         return cell == CellType.BUSH
             || cell == CellType.TREE
-            || cell == CellType.ROCK;
-            //cell == CellType.WALL|| 
+            || cell == CellType.ROCK
+            || cell == CellType.WALL;
     }
 
     private void handleCollectible(int x, int y) {

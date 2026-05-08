@@ -1,6 +1,5 @@
 package FlowerPower.model;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +12,6 @@ import FlowerPower.model.Datatypes.SpacedRandom;
 import FlowerPower.model.Datatypes.aStar;
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsGroup;
-import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.GraphicsObject;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Image;
@@ -24,8 +22,8 @@ public class Gameboard {
     Map<Point, GraphicsObject> board; // maps world map coordinates to the GraphicsObject for the tile
     List<List<CellType>> cells; // get a cell with cells.get(y).get(x)
 
-    Map<CellType, String> cellDisplayColors; // temporary for temp graphics; will replace this with a map from cell types to graphics to display
-    
+    Map<CellType, String> cellDisplayColors; 
+
     // grid gameboard dimensions
     private int row; // number of rows (height)
     private int col; // number of cols (width)
@@ -64,13 +62,13 @@ public class Gameboard {
         /* set up cellDisplayColors */
         cellDisplayColors = new HashMap<CellType, String>();
 
-        cellDisplayColors.put(CellType.BUSH, "catBush.png"); // Color(21, 115, 46)
-        cellDisplayColors.put(CellType.ROCK, "rock.png"); // Color(92, 92, 92)
-        cellDisplayColors.put(CellType.TREE, "tree.png"); // Color(94, 36, 8)
-        cellDisplayColors.put(CellType.WALL, "brik.png"); // Color(212, 126, 114)
-        cellDisplayColors.put(CellType.FLOWER, "flower.png"); // Color(255, 0, 212)
-        cellDisplayColors.put(CellType.GEM, "gem-export.png"); // Color(0, 102, 255)
-        cellDisplayColors.put(CellType.MUSHROOM, "mushroom1.png"); // Color(181, 139, 98)
+        cellDisplayColors.put(CellType.BUSH, "catBush.png"); 
+        cellDisplayColors.put(CellType.ROCK, "rock.png"); 
+        cellDisplayColors.put(CellType.TREE, "tree.png"); 
+        cellDisplayColors.put(CellType.WALL, "brik.png"); 
+        cellDisplayColors.put(CellType.FLOWER, "flower.png"); 
+        cellDisplayColors.put(CellType.GEM, "gem-export.png"); 
+        cellDisplayColors.put(CellType.MUSHROOM, "mushroom1.png"); 
         cellDisplayColors.put(CellType.PATH, "path.png");
 
 
@@ -186,7 +184,6 @@ public class Gameboard {
                     Image cell = new Image(c*cellLen, r*cellWid);
                     cell.setImagePath(cellDisplayColors.get(getCellAt(c, r)));
                     board.put(new Point(c, r), cell);
-                    //canvas.add(cell);
                     worldLayer.add(cell);
                 }
             }
@@ -249,7 +246,6 @@ public class Gameboard {
         }
         cells.get(y).set(x, CellType.EMPTY);
         if (board.get(new Point(x, y)) != null) {
-            //canvas.remove(board.get(new Point(x, y)));
             worldLayer.remove(board.get(new Point(x, y)));
             board.remove(new Point(x, y));
         }
@@ -266,13 +262,11 @@ public class Gameboard {
         }
         cells.get(y).set(x, CellType.PATH);
         if (board.get(new Point(x, y)) != null) {
-            //canvas.remove(board.get(new Point(x, y)));
             worldLayer.remove(board.get(new Point(x, y)));
             board.remove(new Point(x, y));
             Image cell = new Image(x*cellLen, y*cellWid);
             cell.setImagePath(cellDisplayColors.get(CellType.PATH));
             board.put(new Point(x, y), cell);
-            //canvas.add(cell);
             worldLayer.add(cell);
         }
     }
@@ -421,9 +415,7 @@ public class Gameboard {
             int[] coords = toCoords(path.get(i));
             int x = coords[0];
             int y = coords[1];
-            // however we are visually displaying the path
-            // ex:
-            //markCellAt(coords[0], coords[1]);
+
             clearCellAt(x, y);
 
             cells.get(y).set(x, CellType.PATH);
@@ -433,7 +425,6 @@ public class Gameboard {
             cell.setImagePath(cellDisplayColors.get(CellType.PATH));
             cell.setPosition(screenPos.getX(), screenPos.getY());
             board.put(new Point(x, y), cell);
-            //canvas.add(cell);
             worldLayer.add(cell);
 
             cells.get(y).set(x, CellType.PATH);
@@ -441,15 +432,12 @@ public class Gameboard {
         
     }
 
+    /**
+     * 
+     * Finds the closest collectible
+     * 
+     */
     public int[] findClosest(CellType target, double fromX, double fromY) {
-        // CellType target;
-        // switch (name) {
-        //     case "flower":   target = CellType.FLOWER;   break;
-        //     case "mushroom": target = CellType.MUSHROOM; break;
-        //     case "gem":      target = CellType.GEM;      break;
-        //     default: return null;
-        // }
-
         int[] closest = null;
         double bestDist = Double.MAX_VALUE;
 

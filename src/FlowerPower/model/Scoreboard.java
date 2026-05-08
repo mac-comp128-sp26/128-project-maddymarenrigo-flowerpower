@@ -2,16 +2,12 @@ package FlowerPower.model;
 
 import java.awt.Color;
 
-import FlowerPower.model.Datatypes.Dijkstra;
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsGroup;
-import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Image;
 import edu.macalester.graphics.Rectangle;
 
 public class Scoreboard extends GraphicsGroup{
-
-    private final int SIZE = 100;
 
     //private GraphicsGroup group;
     private Rectangle window;
@@ -203,13 +199,10 @@ public class Scoreboard extends GraphicsGroup{
             // Sets path to respected collectible
             if (this.getElementAt(x, y) == flowerButton) {
                 flowerPath();
-                //System.out.println("flower path");
             } else if (this.getElementAt(x, y) == mushButton) {
                 mushroomPath();
-                //System.out.println("mush path");
             } else if (this.getElementAt(x, y) == gemButton) {
                 gemPath();
-                //System.out.println("gem path");
             } else if (this.getElementAt(x, y) == toggleButton) {
                 toggleButton.rotateBy(180);
                 if (mode == PathMode.DJ){

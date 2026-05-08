@@ -1,7 +1,5 @@
 package FlowerPower.model.Datatypes;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
 import java.util.Map;   
 
@@ -28,13 +26,6 @@ public class Graph {
         y = new double[V];
 
         adj = new HashMap<>();
-        
-        // matrix = new double[V][V];
-        // for (int i = 0; i < V; i++) {
-        //     for (int j = 0; j < V; j++) {
-        //         matrix[i][j] = 0.0;
-        //     }
-        // }
     }
 
     /**
@@ -64,7 +55,6 @@ public class Graph {
         validateVertex(v);
         validateVertex(w);
 
-        //return matrix[v][w];
         return adj.getOrDefault(v, new HashMap<>()).getOrDefault(w, 0.0);
     }
 
@@ -88,11 +78,6 @@ public class Graph {
         validateVertex(w);
         if (weight <= 0) throw new IllegalArgumentException("Edge weight must be positive");
 
-        // if (matrix[v][w] == 0.0) E++;   // only count new edges
-
-        // matrix[v][w] = weight;
-        // matrix[w][v] = weight;
-
         adj.computeIfAbsent(v, k -> new HashMap<>()).put(w, weight);
         adj.computeIfAbsent(w, k -> new HashMap<>()).put(v, weight);
         E++;
@@ -106,7 +91,6 @@ public class Graph {
     public boolean hasEdge(int v, int w) {
         validateVertex(v);
         validateVertex(w);
-        //return matrix[v][w] != 0.0;
         return adj.getOrDefault(v, new HashMap<>()).containsKey(w);
     }
 
@@ -121,20 +105,6 @@ public class Graph {
         Map<Integer, Double> neighbors = adj.getOrDefault(v, new HashMap<>());
         return neighbors.keySet().stream().mapToInt(Integer::intValue).toArray();
     }
-    // public int[] adj(int v) {
-    //     validateVertex(v);
-    //     List<Integer> neighbors = new ArrayList<>();
-    //     for (int i = 0; i < V; i++) {
-    //         if (matrix[v][i] != 0.0) {  // also check v→i not i→v
-    //             neighbors.add(i);
-    //         }
-    //     }
-    //     int[] result = new int[neighbors.size()];
-    //     for (int i = 0; i < neighbors.size(); i++) {
-    //         result[i] = neighbors.get(i);
-    //     }
-    //     return result;
-    // }
 
     /**
      * Returns the degree of vertex {@code v}.
@@ -143,16 +113,6 @@ public class Graph {
      * @return the degree of vertex {@code v}
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
      */
-    // public int degree(int v) {
-    //     validateVertex(v);
-    //     int count = 0;
-    //     for (int i = 0; i < V; i++) {
-    //         if(matrix[i][v] == 1) {
-    //             count++;
-    //         }
-    //     }
-    //     return count; 
-    // }
 
     /**
      * Euclidean distance between two nodes — convenience helper for A*.
