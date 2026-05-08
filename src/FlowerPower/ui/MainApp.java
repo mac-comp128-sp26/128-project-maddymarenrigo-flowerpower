@@ -29,10 +29,9 @@ public class MainApp {
    
  
     private MainApp() {
-        // add obstacles, explorer, collectables OR have Gameboard.java implement those and then just add a new Gameboard object
         canvas = new CanvasWindow("FlowerPower", (int) CANVAS_SIZE*5, (int) CANVAS_SIZE*5);
         canvas.setBackground(backgroundColor);
-        game = new Gameboard(256, 256, canvas, worldLayer); // 256 by 256 for full gameboard
+        game = new Gameboard(256, 256, canvas, worldLayer);
         explorer = new Explorer(new GraphicsGroup(), game);
         scoreboard = new Scoreboard(canvas, game);
          
