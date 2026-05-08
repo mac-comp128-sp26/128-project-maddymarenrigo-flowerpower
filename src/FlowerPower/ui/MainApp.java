@@ -9,10 +9,8 @@ import FlowerPower.model.Scoreboard;
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsGroup;
 
-//Maren is doing ui
 /**
- * backround
- * shapes for player, collect and obstical
+ * Runs the game
  */
 public class MainApp {
 
