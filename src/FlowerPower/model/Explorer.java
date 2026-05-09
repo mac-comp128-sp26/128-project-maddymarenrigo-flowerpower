@@ -54,12 +54,10 @@ public class Explorer {
         characterSetup();
     }
 
-    public void characterSetup(){
+    public void characterSetup() {
         iconImage = new Image(0, 0);
-
         this.animationState = 0;
         updateAnimationFrame();
-
         icon.add(iconImage);
     }
 
@@ -154,7 +152,6 @@ public class Explorer {
     public void updateOnscreenPosition() {
         Point newPosition = gameboard.getOnscreenPosition(x, y);
         icon.setPosition(newPosition);
-
         rowPos = y;
         colPos = x;
     }

@@ -23,16 +23,13 @@ public class SpacedRandom {
      */
     public static List<Point> yieldAllPoints(double spreadDistance, double worldSize, double bias) {
         List<Point> results = new ArrayList<>();
-
         bias = 1 - Math.max(Math.min(bias, 1), 0);
-
         for (double x = 0; x < worldSize; x += spreadDistance) {
             for (double y = 0; y < worldSize; y += spreadDistance) {
                 results.add(new Point(x + (Math.random() * spreadDistance * bias),
                                       y + (Math.random() * spreadDistance * bias)));
             }
         }
-
         return results;
     }
 
@@ -60,16 +57,13 @@ public class SpacedRandom {
     public static List<Point> yieldPoints(int numPoints, double spreadDistance, double worldSize, double bias) {
         List<Point> allResults = yieldAllPoints(spreadDistance, worldSize, bias);
         List<Point> results = new ArrayList<>();
-
         if (numPoints >= allResults.size()) {
             return allResults;
         }
-
         for (int i = 0; i < numPoints; i++) {
             int index = (int) (Math.random() * allResults.size());
             results.add(allResults.remove(index));
         }
-
         return results;
     }
 
@@ -92,38 +86,19 @@ public class SpacedRandom {
      */
     public static List<Point> roundPoints(List<Point> points) {
         List<Point> roundedPoints = new ArrayList<>();
-
         for (Point point : points) {
             roundedPoints.add(new Point((int) point.getX(), (int) point.getY()));
         }
-
         return roundedPoints;
     }
 
     /* for testing if SpacedRandom is functioning properly */
     public static void main(String[] args) {
         CanvasWindow canvas = new CanvasWindow("SpacedRandom", 256, 256);
-        
         int numPoints = 20;
         double minDistance = 20;
         double bias = 0.3;
-
         List<Point> spacedPoints = yieldPoints(numPoints, minDistance, 256, bias);
-        
-        // grid for reference
-        /*
-        int x = 0;
-        int y = 0;
-        while (x < canvas.getWidth()) {
-            while (y < canvas.getHeight()) {
-                canvas.add(new Rectangle(new Point(x, y), new Point(minDistance, minDistance)));
-                y += minDistance;
-            }
-            x += minDistance;
-            y = 0;
-        }
-        */
-
         for (Point point : spacedPoints) {
             canvas.add(new Rectangle(point, Point.ONE_ONE));
         }

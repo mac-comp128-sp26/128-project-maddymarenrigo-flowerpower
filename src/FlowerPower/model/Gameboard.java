@@ -51,7 +51,6 @@ public class Gameboard {
     public Gameboard(int row, int col, CanvasWindow canvas, GraphicsGroup worldLayer) {
         board = new HashMap<>();
         cells = new ArrayList<>();
-        
         /* set up cells to have the right number of entries (all empty for now; will be generated later) */
         for (int i = 0; i < row; i++) {
             List<CellType> tempList = new ArrayList<>();
@@ -60,10 +59,8 @@ public class Gameboard {
             }
             cells.add(tempList);
         }
-
         /* set up cellDisplayColors */
         cellDisplayColors = new HashMap<CellType, String>();
-
         cellDisplayColors.put(CellType.BUSH, "catBush.png"); 
         cellDisplayColors.put(CellType.ROCK, "rock.png"); 
         cellDisplayColors.put(CellType.TREE, "tree.png"); 
@@ -72,21 +69,15 @@ public class Gameboard {
         cellDisplayColors.put(CellType.GEM, "gem-export.png"); 
         cellDisplayColors.put(CellType.MUSHROOM, "mushroom1.png"); 
         cellDisplayColors.put(CellType.PATH, "path.png");
-
-
         this.row = row;
         this.col = col;
-
         cellLen = 32.0; // 32 x 32 pixels
         cellWid = 32.0; // 32 x 32 pixels
-
         this.canvas = canvas;
         this.worldLayer = worldLayer;
         this.obstaclRandomPoints = new ArrayList<>();
         this.randomPoints = new ArrayList<>();
-
         cameraPosition = new Point(0, 0);
-
         this.path = new ArrayList<>();
     }
 
@@ -97,6 +88,13 @@ public class Gameboard {
         
     }
 
+    /**
+     * validates the x and y, then sets the cell at the x and y to the given celltype
+     * 
+     * @param x
+     * @param y
+     * @param CellType
+     */
     private void setTile(int x, int y, CellType CellType) {
         if(x < 0 || x > 256) {
             return;
@@ -106,51 +104,64 @@ public class Gameboard {
         cells.get(y).set( x, CellType);
     }
 
-    private void setObstaclesInLine(Point top, CellType CellType) {
+    /**
+     * sets the obsicals in a line randomly
+     * 
+     * @param point
+     * @param CellType
+     */
+    private void setObstaclesInLine(Point point, CellType CellType) {
         if(Math.random() < 0.5) {
-            setTile((int) top.getX(), (int) top.getY(), CellType);
-            setTile((int) top.getX(), (int) top.getY() + 1, CellType);
-            setTile((int) top.getX(), (int) top.getY() + 2, CellType);
-            setTile((int) top.getX(), (int) top.getY() + 3, CellType);
-            setTile((int) top.getX(), (int) top.getY() + 4, CellType);
+            setTile((int) point.getX(), (int) point.getY(), CellType);
+            setTile((int) point.getX(), (int) point.getY() + 1, CellType);
+            setTile((int) point.getX(), (int) point.getY() + 2, CellType);
+            setTile((int) point.getX(), (int) point.getY() + 3, CellType);
+            setTile((int) point.getX(), (int) point.getY() + 4, CellType);
 
         } else {
-            setTile((int) top.getX(), (int) top.getY(), CellType);
-            setTile((int) top.getX() + 1, (int) top.getY(), CellType);
-            setTile((int) top.getX() + 2, (int) top.getY(), CellType);
-            setTile((int) top.getX() + 3, (int) top.getY(), CellType);
-            setTile((int) top.getX() + 4, (int) top.getY(), CellType);
+            setTile((int) point.getX(), (int) point.getY(), CellType);
+            setTile((int) point.getX() + 1, (int) point.getY(), CellType);
+            setTile((int) point.getX() + 2, (int) point.getY(), CellType);
+            setTile((int) point.getX() + 3, (int) point.getY(), CellType);
+            setTile((int) point.getX() + 4, (int) point.getY(), CellType);
         }
     }
     
-    private void setTrees(Point top) {
+    /**
+     * this method sets the position of the trees
+     * 
+     * @param point
+     */
+    private void setTrees(Point point) {
         if(Math.random() < 0.5) {
-            setTile((int) top.getX(), (int) top.getY(), CellType.TREE);
-            setTile((int) top.getX() - 1, (int) top.getY(), CellType.TREE);
-            setTile((int) top.getX() + 2, (int) top.getY(), CellType.TREE);
-            setTile((int) top.getX() + 3, (int) top.getY() - 1, CellType.TREE);
-            setTile((int) top.getX() - 4, (int) top.getY() + 3, CellType.TREE);
-            setTile((int) top.getX() + 4, (int) top.getY() - 5, CellType.TREE);
-            setTile((int) top.getX() - 2, (int) top.getY() + 2, CellType.TREE);
-            setTile((int) top.getX(), (int) top.getY() + 4, CellType.TREE);
-            setTile((int) top.getX(), (int) top.getY() - 3, CellType.TREE);
-            setTile((int) top.getX(), (int) top.getY() - 1, CellType.TREE);
+            setTile((int) point.getX(), (int) point.getY(), CellType.TREE);
+            setTile((int) point.getX() - 1, (int) point.getY(), CellType.TREE);
+            setTile((int) point.getX() + 2, (int) point.getY(), CellType.TREE);
+            setTile((int) point.getX() + 3, (int) point.getY() - 1, CellType.TREE);
+            setTile((int) point.getX() - 4, (int) point.getY() + 3, CellType.TREE);
+            setTile((int) point.getX() + 4, (int) point.getY() - 5, CellType.TREE);
+            setTile((int) point.getX() - 2, (int) point.getY() + 2, CellType.TREE);
+            setTile((int) point.getX(), (int) point.getY() + 4, CellType.TREE);
+            setTile((int) point.getX(), (int) point.getY() - 3, CellType.TREE);
+            setTile((int) point.getX(), (int) point.getY() - 1, CellType.TREE);
             
         } else {
-            setTile((int) top.getX(), (int) top.getY(), CellType.TREE);
-            setTile((int) top.getX() - 2, (int) top.getY(), CellType.TREE);
-            setTile((int) top.getX() + 4, (int) top.getY(), CellType.TREE);
-            setTile((int) top.getX() + 1, (int) top.getY() - 1, CellType.TREE);
-            setTile((int) top.getX() - 1, (int) top.getY() + 2, CellType.TREE);
-            setTile((int) top.getX() - 3, (int) top.getY() + 5, CellType.TREE);
-            setTile((int) top.getX() - 1, (int) top.getY() + 3, CellType.TREE);
-            setTile((int) top.getX() + 4, (int) top.getY() + 1, CellType.TREE);
-            setTile((int) top.getX(), (int) top.getY() - 4, CellType.TREE);
-            setTile((int) top.getX(), (int) top.getY() - 5, CellType.TREE);
+            setTile((int) point.getX(), (int) point.getY(), CellType.TREE);
+            setTile((int) point.getX() - 2, (int) point.getY(), CellType.TREE);
+            setTile((int) point.getX() + 4, (int) point.getY(), CellType.TREE);
+            setTile((int) point.getX() + 1, (int) point.getY() - 1, CellType.TREE);
+            setTile((int) point.getX() - 1, (int) point.getY() + 2, CellType.TREE);
+            setTile((int) point.getX() - 3, (int) point.getY() + 5, CellType.TREE);
+            setTile((int) point.getX() - 1, (int) point.getY() + 3, CellType.TREE);
+            setTile((int) point.getX() + 4, (int) point.getY() + 1, CellType.TREE);
+            setTile((int) point.getX(), (int) point.getY() - 4, CellType.TREE);
+            setTile((int) point.getX(), (int) point.getY() - 5, CellType.TREE);
         }
     }
 
-    //update cells
+    /**
+     * this method places the collectables and obsicals on the board randomly
+     */
     public void generateBoard() {
         obstaclRandomPoints = SpacedRandom.roundPoints(SpacedRandom.yieldPoints(150, 20, 256));
         for(int i = 0; i < 150; i++) {
@@ -313,7 +324,6 @@ public class Gameboard {
         return cells;
     }
 
-
     /**
      * Returns a Graph object of the gameboard
      * 
@@ -321,15 +331,12 @@ public class Gameboard {
      */
     public Graph buildGraph() {
         Graph g = new Graph(row * col);
-
         for (int r = 0; r < row; r++) {
             for (int c = 0; c < col; c++) {
                 g.setPosition(toIndex(c, r), c * cellWid, r * cellLen); // create node for each grid cell in gameboard
             }
         }
-
         int[][] directions = {{1,0},{-1,0},{0,1},{0,-1}}; // 4 neighbors
-
         for (int r = 0; r < row; r++) {
             for (int c = 0; c < col; c++) {
                 if (!isWalkable(getCellAt(c, r))) continue; // skip unwalkable cells (obstacles)
@@ -340,7 +347,6 @@ public class Gameboard {
 
                     if (nieghborcRow < 0 || nieghborcRow >= row || nieghborcCol < 0 || nieghborcCol >= col) continue; // skip out-of-bounds cells
                     if (!isWalkable(getCellAt(nieghborcCol, nieghborcRow))) continue; // skip unwalkable neighbor cells (obstacles)
-
                     g.addEdge(toIndex(c, r), toIndex(nieghborcCol, nieghborcRow), 1.0);
                 }
             }
@@ -392,9 +398,7 @@ public class Gameboard {
             }
             path.clear();
         }
-
         Graph g = buildGraph();
-
         // selects correct path mode
         if (name == PathMode.ASTAR){
             aStar astar = new aStar(g);
@@ -406,22 +410,17 @@ public class Gameboard {
             for (int i = 1; i < path.size() - 1; i++) {
                 int[] coords = toCoords(path.get(i));
                 int x = coords[0];
-                int y = coords[1];
-                
+                int y = coords[1]; 
                 clearCellAt(x, y);
             }
             path.clear();
         }
-
         for (int i = 1; i < path.size() - 1; i++) {
             int[] coords = toCoords(path.get(i));
             int x = coords[0];
             int y = coords[1];
-
             clearCellAt(x, y);
-
             cells.get(y).set(x, CellType.PATH);
-
             Point screenPos = getOnscreenPosition(x, y);
             Image cell = new Image(x*cellLen, y*cellWid);
             cell.setImagePath(cellDisplayColors.get(CellType.PATH));
@@ -454,7 +453,6 @@ public class Gameboard {
                 }
             }
         }
-
         return closest;
     }
 

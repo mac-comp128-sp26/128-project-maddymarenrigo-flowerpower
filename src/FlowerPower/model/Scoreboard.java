@@ -15,29 +15,25 @@ public class Scoreboard extends GraphicsGroup{
     private Rectangle window;
     private CanvasWindow canvas;
     private Gameboard board;
-
     private int mushNum;
     private int flowerNum;
     private int gemNum;
     private int score;
-
     public GraphicsGroup mushScore;
     public GraphicsGroup flowerScore;
     public GraphicsGroup gemScore;
     public GraphicsGroup totalScore;
     public GraphicsGroup coords;
-
     public Image mushButton;
     public Image flowerButton;
     public Image gemButton;
     public Image astarButton;
     public Image djButton;
     public Image toggleButton;
-
     private PathMode mode;
     private CellType pathTo;
 
-    public Scoreboard(CanvasWindow canvas, Gameboard board){
+    public Scoreboard(CanvasWindow canvas, Gameboard board) {
         this.canvas = canvas;
         this.board = board;
 
@@ -48,7 +44,7 @@ public class Scoreboard extends GraphicsGroup{
         clickEvents();
     }
 
-    private void setup(){
+    private void setup() {
         window = new Rectangle(0, 0, 215, 300);
         window.setFillColor(new Color(175, 175, 175));
         this.add(window);
@@ -171,7 +167,6 @@ public class Scoreboard extends GraphicsGroup{
         djButton.setPosition(djButton.getWidth(), 258);
         this.add(djButton);
 
-
         // toggle button
         toggleButton = new Image("toggle.png");
         toggleButton.setMaxWidth(50);
@@ -190,14 +185,13 @@ public class Scoreboard extends GraphicsGroup{
         updateBoard();
     }
 
-    public void clickEvents(){
+    public void clickEvents() {
         /**
          *  Click events
          */
         canvas.onClick(event -> {
             double x = event.getPosition().getX();
             double y = event.getPosition().getY();
-
             // Sets path to respected collectible
             if (this.getElementAt(x, y) == flowerButton) {
                 flowerPath();
@@ -207,17 +201,16 @@ public class Scoreboard extends GraphicsGroup{
                 gemPath();
             } else if (this.getElementAt(x, y) == toggleButton) {
                 toggleButton.rotateBy(180);
-                if (mode == PathMode.DJ){
+                if (mode == PathMode.DJ) {
                     mode = PathMode.ASTAR;
                 } else {
                     mode = PathMode.DJ;
                 }
-
-                if (pathTo == CellType.FLOWER){
+                if (pathTo == CellType.FLOWER) {
                     flowerPath();
-                } else if (pathTo == CellType.MUSHROOM){
+                } else if (pathTo == CellType.MUSHROOM) {
                     mushroomPath();
-                } else if (pathTo == CellType.GEM){
+                } else if (pathTo == CellType.GEM) {
                     gemPath();
                 } else {
                     board.showPath(Explorer.colPos, Explorer.rowPos, 0, 0, PathMode.NONE);
@@ -262,75 +255,70 @@ public class Scoreboard extends GraphicsGroup{
     /**
      * Click helpers
      */
-    private void flowerPath(){
+    private void flowerPath() {
         pathTo = CellType.FLOWER;
         int[] closest = board.findClosest(pathTo, Explorer.colPos, Explorer.rowPos);
         board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1], mode);
     }
-    private void mushroomPath(){
+
+    private void mushroomPath() {
         pathTo = CellType.MUSHROOM;
         int[] closest = board.findClosest(pathTo, Explorer.colPos, Explorer.rowPos);
         board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1], mode);
     }
-    private void gemPath(){
+    
+    private void gemPath() {
         pathTo = CellType.GEM;
         int[] closest = board.findClosest(pathTo, Explorer.colPos, Explorer.rowPos);
         board.showPath(Explorer.colPos, Explorer.rowPos, closest[0], closest[1], mode);
     }
 
     // updates visual text displayed on scoreboard
-    public void updateBoard(){
-        if (mushNum != Explorer.mushroomsCollected){
+    public void updateBoard() {
+        if (mushNum != Explorer.mushroomsCollected) {
             this.remove(mushScore);
             mushScore = setNumber(String.valueOf(Explorer.mushroomsCollected));
             mushScore.setPosition(180, 100);
             mushNum = Explorer.mushroomsCollected;
             this.add(mushScore);
         }
-
-        if (flowerNum != Explorer.flowersCollected){
+        if (flowerNum != Explorer.flowersCollected) {
             this.remove(flowerScore);
             flowerScore = setNumber(String.valueOf(Explorer.flowersCollected));
             flowerScore.setPosition(180,80);
             flowerNum = Explorer.flowersCollected;
             this.add(flowerScore);
         }
-
-        if (gemNum != Explorer.gemsCollected){
+        if (gemNum != Explorer.gemsCollected) {
             this.remove(gemScore);
             gemScore = setNumber(String.valueOf(Explorer.gemsCollected));
             gemScore.setPosition(180,120);
             gemNum = Explorer.gemsCollected;
             this.add(gemScore);
         }
-
-        if (score != Explorer.totalScore){
+        if (score != Explorer.totalScore) {
             this.remove(totalScore);
             totalScore = setNumber(String.valueOf(Explorer.totalScore));
             totalScore.setPosition(160,140);
             score = Explorer.totalScore;
             this.add(totalScore);
         }
-
         this.remove(coords);
         coords = coordBuilder(String.valueOf(Explorer.colPos), String.valueOf(Explorer.rowPos));
         coords.setPosition(130, 45);
         this.add(coords);
     }
 
-    private GraphicsGroup coordBuilder(String x, String y){
+    private GraphicsGroup coordBuilder(String x, String y) {
         GraphicsGroup newLabel = new GraphicsGroup();
-
         GraphicsGroup xCoord = setNumber(x);
         GraphicsGroup yCoord = setNumber(y);
         Image open = new Image("(.png");
         Image comma = new Image(",.png");
         Image close = new Image(").png");
-
         open.setMaxHeight(10);
         comma.setMaxHeight(4);
         close.setMaxHeight(10);
-
         int xPos = 0;
         open.setPosition(xPos, 0);
         xPos += open.getWidth();
@@ -345,22 +333,19 @@ public class Scoreboard extends GraphicsGroup{
         xPos += yCoord.getWidth();
         xPos += 5;
         close.setPosition(xPos,0);
-
         newLabel.add(open);
         newLabel.add(xCoord);
         newLabel.add(comma);
         newLabel.add(yCoord);
         newLabel.add(close);
-
         return newLabel;
     }
 
-    private GraphicsGroup setNumber(String num){
+    private GraphicsGroup setNumber(String num) {
         String[] numbers = num.split("");
         GraphicsGroup newLabel = new GraphicsGroup();
         int curX = 0;
-
-        for (String c : numbers){
+        for (String c : numbers) {
             String path = c + ".png";
             Image i = new Image(path);
             i.setMaxHeight(10);
@@ -368,9 +353,7 @@ public class Scoreboard extends GraphicsGroup{
             curX += 8;
             newLabel.add(i);
         }
-
         curX = 0;
-
         return newLabel;
     }
 }
