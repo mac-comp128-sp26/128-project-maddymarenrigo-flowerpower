@@ -22,7 +22,6 @@ public class MainApp {
     private Color backgroundColor = new Color(34, 125, 73);
     Explorer explorer;
     Scoreboard scoreboard;
-
     GraphicsGroup worldLayer = new GraphicsGroup();   // tiles + path
     GraphicsGroup entityLayer = new GraphicsGroup();  // explorer
     GraphicsGroup uiLayer = new GraphicsGroup();      // scoreboard
@@ -34,7 +33,7 @@ public class MainApp {
         game = new Gameboard(256, 256, canvas, worldLayer);
         explorer = new Explorer(new GraphicsGroup(), game);
         scoreboard = new Scoreboard(canvas, game);
-         
+
     }
 
     public static void main(String[] args) {
@@ -61,7 +60,6 @@ public class MainApp {
             || keys.contains(edu.macalester.graphics.events.Key.DOWN_ARROW)
             || keys.contains(edu.macalester.graphics.events.Key.RIGHT_ARROW)
             || keys.contains(edu.macalester.graphics.events.Key.LEFT_ARROW))) explorer.resetSpeed();
-
         game.oneFrame();
         explorer.oneFrame();
         scoreboard.updateBoard();
@@ -71,16 +69,12 @@ public class MainApp {
     private void setUpGame() {
         //this will set up and reset the layout for the beginning of a round.
         canvas.removeAll();
-        
         //adding to canvas
         game.generateBoard(); //(putting the stuff in the cells array)
         game.setup();
-
         entityLayer.add(explorer.icon);
-
         uiLayer.add(scoreboard);
         scoreboard.setPosition(0, 0);
-        
         canvas.add(worldLayer); // board
         canvas.add(entityLayer); // player
         canvas.add(uiLayer); // scoreboard

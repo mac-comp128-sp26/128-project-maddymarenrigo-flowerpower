@@ -26,44 +26,30 @@ public class aStar {
     public List<Integer> path(int start, int goal) {
         validateNode(start);
         validateNode(goal);
-
         if (start == goal) return List.of(start);
-
         int V = graph.V();
-
         double[] gScore  = new double[V];
         double[] fScore  = new double[V];
         int[]    cameFrom = new int[V];
-
         for (int i = 0; i < V; i++) {
             gScore[i]   = Double.POSITIVE_INFINITY;
             fScore[i]   = Double.POSITIVE_INFINITY;
             cameFrom[i] = -1;
         }
-
         gScore[start] = 0.0;
         fScore[start] = heuristic(start, goal);
-
-        // Min-heap: [nodeIndex, fScore]
         PriorityQueue<int[]> open = new PriorityQueue<>(Comparator.comparingDouble(entry -> fScore[entry[0]]));
         open.offer(new int[]{start});
-
         boolean[] closed = new boolean[V];
-
         while (!open.isEmpty()) {
             int current = open.poll()[0];
-
             if (current == goal) return reconstructPath(cameFrom, goal);
-
             // Skip if we already settled this node via a cheaper route
             if (closed[current]) continue;
             closed[current] = true;
-
             for (int neighbour : graph.adj(current)) {
                 if (closed[neighbour]) continue;
-
                 double tentativeG = gScore[current] + graph.weight(current, neighbour);
-
                 if (tentativeG < gScore[neighbour]) {
                     cameFrom[neighbour] = current;
                     gScore[neighbour]   = tentativeG;
@@ -72,10 +58,8 @@ public class aStar {
                 }
             }
         }
-
         return Collections.emptyList(); // no path exists
     }
-
 
     /**
      * Returns the total cost of the path returned

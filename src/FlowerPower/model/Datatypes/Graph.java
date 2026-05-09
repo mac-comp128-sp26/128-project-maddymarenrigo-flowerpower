@@ -10,21 +10,16 @@ public class Graph {
 
     private final int V;
     private int E;
-    
-
     private final Map<Integer, Map<Integer, Double>> adj;   // 0.0 = no edge; > 0.0 = edge weight
     private double[] x;          // x-coordinate of each node
     private double[] y;          // y-coordinate of each node
 
-    public Graph(int V){
+    public Graph(int V) {
         if (V < 0) throw new IllegalArgumentException("Number of vertices must be nonnegative");
-
         this.V = V;
         this.E = 0;
-
         x = new double[V];
         y = new double[V];
-
         adj = new HashMap<>();
     }
 
@@ -54,7 +49,6 @@ public class Graph {
     public double weight(int v, int w) {
         validateVertex(v);
         validateVertex(w);
-
         return adj.getOrDefault(v, new HashMap<>()).getOrDefault(w, 0.0);
     }
 
@@ -77,7 +71,6 @@ public class Graph {
         validateVertex(v);
         validateVertex(w);
         if (weight <= 0) throw new IllegalArgumentException("Edge weight must be positive");
-
         adj.computeIfAbsent(v, k -> new HashMap<>()).put(w, weight);
         adj.computeIfAbsent(w, k -> new HashMap<>()).put(v, weight);
         E++;
@@ -105,14 +98,6 @@ public class Graph {
         Map<Integer, Double> neighbors = adj.getOrDefault(v, new HashMap<>());
         return neighbors.keySet().stream().mapToInt(Integer::intValue).toArray();
     }
-
-    /**
-     * Returns the degree of vertex {@code v}.
-     *
-     * @param v the vertex
-     * @return the degree of vertex {@code v}
-     * @throws IllegalArgumentException unless {@code 0 <= v < V}
-     */
 
     /**
      * Euclidean distance between two nodes — convenience helper for A*.
