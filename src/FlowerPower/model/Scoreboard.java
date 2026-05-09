@@ -2,6 +2,8 @@ package FlowerPower.model;
 
 import java.awt.Color;
 
+import FlowerPower.model.Enums.CellType;
+import FlowerPower.model.Enums.PathMode;
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.Image;

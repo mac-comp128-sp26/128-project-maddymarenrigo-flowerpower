@@ -10,6 +10,8 @@ import FlowerPower.model.Datatypes.Dijkstra;
 import FlowerPower.model.Datatypes.Graph;
 import FlowerPower.model.Datatypes.SpacedRandom;
 import FlowerPower.model.Datatypes.aStar;
+import FlowerPower.model.Enums.CellType;
+import FlowerPower.model.Enums.PathMode;
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.GraphicsObject;

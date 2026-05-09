@@ -1,5 +1,6 @@
 package FlowerPower.model;
 
+import FlowerPower.model.Enums.CellType;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.Image;
 import edu.macalester.graphics.Point;

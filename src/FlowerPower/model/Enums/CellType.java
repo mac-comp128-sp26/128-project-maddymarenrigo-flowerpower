@@ -1,4 +1,4 @@
-package FlowerPower.model;
+package FlowerPower.model.Enums;
 
 public enum CellType {
     EMPTY,
